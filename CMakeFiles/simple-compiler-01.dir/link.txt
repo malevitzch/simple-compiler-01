@@ -1,0 +1,1 @@
+/usr/bin/c++ "CMakeFiles/simple-compiler-01.dir/src/compiler.cpp.o" "CMakeFiles/simple-compiler-01.dir/src/main.cpp.o" -o simple-compiler-01 
