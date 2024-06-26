@@ -18,11 +18,11 @@ namespace asm_getters
 {
   string register_variable(const int value)
   {
-    return "\tpush dword [" + std::to_string(value) + "]\n"; 
+    return "\tpush" + std::to_string(value) + "\n"; 
   }
   string modify_variable(const int value, const int target_ptr, const int stack_ptr)
   {
-    return "\tmov [rsp+" + std::to_string(4*(stack_ptr-target_ptr)) +"], dword [" + std::to_string(value) + "]\n";
+    return "\tmov [rsp+" + std::to_string(8*(stack_ptr-target_ptr)) +"], " + std::to_string(value) + "\n";
   }
   string print_variable(const int target_ptr, const int stack_ptr)
   {
