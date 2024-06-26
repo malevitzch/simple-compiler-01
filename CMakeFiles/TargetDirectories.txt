@@ -1,3 +1,0 @@
-/home/maciejm/programming/c++/projects/simple-compiler-01/CMakeFiles/simple-compiler-01.dir
-/home/maciejm/programming/c++/projects/simple-compiler-01/CMakeFiles/edit_cache.dir
-/home/maciejm/programming/c++/projects/simple-compiler-01/CMakeFiles/rebuild_cache.dir
