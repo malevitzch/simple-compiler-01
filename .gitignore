@@ -3,4 +3,5 @@ CMakeFiles
 cmake_install.cmake
 Makefile
 CMakeCache.txt
-
+simple-compiler-01
+*debug*
