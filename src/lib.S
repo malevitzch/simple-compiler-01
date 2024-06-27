@@ -6,7 +6,7 @@ section .data
   chvar dq '!'
 
 section .text
-global _start
+global _print
 
 %macro add_char 1
   mov qword [chvar], %1
