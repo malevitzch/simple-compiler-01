@@ -5,3 +5,6 @@ The initial goal of this project is to create a simple, not necessarily turing-c
 - PRINT [name] (which prints the value of the 64-bit integer variable with specified name)
 - SET [name] [value] (which sets the value of an already declared variable with the specified name)
 
+
+TODO:
+-[ ] implement assembly function to print 64 bit integers
