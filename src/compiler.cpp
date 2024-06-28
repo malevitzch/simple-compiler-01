@@ -26,7 +26,10 @@ namespace asm_getters
   }
   string print_variable(const int target_ptr, const int stack_ptr)
   {
-    return "TODO";
+    return "\tpush [rsp+" + std::to_string(8*(stack_ptr-target_ptr)) + "]\n\tadd rsp, 8\n";
+  }
+  string base_template()
+  {
+    return "section .text\n\nextern _print\nglobal _start\n\n_start:\n";
   }
 }
-
