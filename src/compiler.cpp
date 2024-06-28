@@ -26,11 +26,15 @@ namespace asm_getters
   }
   string print_variable(const int target_ptr, const int stack_ptr)
   {
-    return "\tpush [rsp+" + std::to_string(8*(stack_ptr-target_ptr)) + "]\n\tadd rsp, 8\n";
+    return "\tpush qword [rsp+" + std::to_string(8*(stack_ptr-target_ptr)) + "]\n\tadd rsp, 8\n";
   }
   string base_template()
   {
     return "section .text\n\nextern _print\nglobal _start\n\n_start:\n";
+  }
+  string end_program()
+  {
+    return "\tmov rax, 60\n\tmov rdi, 1\n\tsyscall\n";
   }
 }
 namespace operations

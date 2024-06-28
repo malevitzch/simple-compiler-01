@@ -12,12 +12,13 @@ namespace asm_getters
   string modify_variable(const int value, const int target_ptr, const int stack_ptr);
   string print_variable(const int target_ptr, const int stack_ptr);
   string base_template();
+  string end_program();
 }
 
 namespace operations
 {
   bool declare_variable(ostream& target, std::map<string, int>& variable_table, const string name, const int value, int& stack_ptr);
-  bool assign_to_variable(ostream& target, std::map<string, int>& variable_table, const string name, const int value, int& stack_ptr);
-  bool print_variable(ostream& target, const std::map<string, int>& variable_table, const string name, int& stack_ptr);
+  bool assign_to_variable(ostream& target, std::map<string, int>& variable_table, const string name, const int value, const int stack_ptr);
+  bool print_variable(ostream& target, const std::map<string, int>& variable_table, const string name, const int stack_ptr);
 }
 
