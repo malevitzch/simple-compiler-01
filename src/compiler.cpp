@@ -1,30 +1,50 @@
 #include <iostream>
 #include "../include/compiler.hpp" 
-bool is_variable_registered(const std::map<string, int>& variable_table, const string name)
+bool Compiler::is_variable_registered(string name) const
 {
   return variable_table.find(name) != variable_table.end();
 }
 
-bool register_variable(std::map<string, int>& variable_table, const string name, const int value, int& stack_ptr)
+bool Compiler::register_variable(string name, int value)
 {
-  if(is_variable_registered(variable_table, name))
+  if(is_variable_registered(name))
   {
     return false;
   }
   variable_table[name] = ++stack_ptr;
   return true;
 }
+bool Compiler::declare_variable(string name, int value)
+{
+  if(!register_variable(name, value)) return false; //return false as for failure in case of registration failure
+  target << asm_getters::create_variable(value);
+  return true;
+}
+bool Compiler::assign_to_variable(string name, int value)
+{
+  if(!is_variable_registered(name)) return false; //return false in case we try to access a variable that does not exist
+  target << asm_getters::modify_variable(value, variable_table[name], stack_ptr);
+  return true;
+}
+bool Compiler::print_variable(string name) const
+{
+  if(!is_variable_registered(name)) return false; //return false in case we try to print a nonexistent variable
+  target << asm_getters::print_variable(variable_table.at(name), stack_ptr);
+  return true;
+}
+Compiler::Compiler(ostream& target) : target(target) {}
+
 namespace asm_getters
 {
-  string create_variable(const int value)
+  string create_variable(int value)
   {
     return "\tpush " + std::to_string(value) + "\n"; 
   }
-  string modify_variable(const int value, const int target_ptr, const int stack_ptr)
+  string modify_variable(int value, int target_ptr, int stack_ptr)
   {
     return "\tmov qword [rsp+" + std::to_string(8*(stack_ptr-target_ptr)) +"], " + std::to_string(value) + "\n";
   }
-  string print_variable(const int target_ptr, const int stack_ptr)
+  string print_variable(int target_ptr, int stack_ptr)
   {
     return "\tpush qword [rsp+" + std::to_string(8*(stack_ptr-target_ptr)) + "]\n\tcall _print\n\tadd rsp, 8\n";
   }
@@ -35,27 +55,6 @@ namespace asm_getters
   string end_program()
   {
     return "\tmov rax, 60\n\tmov rdi, 1\n\tsyscall\n";
-  }
-}
-namespace operations
-{
-bool declare_variable(ostream& target, std::map<string, int>& variable_table, const string name, const int value, int& stack_ptr)
-{
-  if(!register_variable(variable_table, name, value, stack_ptr)) return false;
-  target << asm_getters::create_variable(value);
-    return true;
-  }
-  bool assign_to_variable(ostream& target, std::map<string, int>& variable_table, const string name, const int value, const int stack_ptr)
-  {
-    if(!is_variable_registered(variable_table, name)) return false;
-    target << asm_getters::modify_variable(value, variable_table[name], stack_ptr);
-    return true;
-  }
-  bool print_variable(ostream& target, const std::map<string, int>& variable_table, const string name, const int stack_ptr)
-  {
-    if(!is_variable_registered(variable_table, name)) return false;
-    target << asm_getters::print_variable(variable_table.at(name), stack_ptr);
-    return true;
   }
 }
 
