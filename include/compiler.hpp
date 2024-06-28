@@ -15,7 +15,6 @@ private:
 public:
   Compiler() = delete;
   Compiler(ostream& target);
-  //TODO: implement the operations functions
   bool declare_variable(string name, int value);
   bool assign_to_variable(string name, int value);
   bool print_variable(string name) const;
@@ -29,12 +28,3 @@ namespace asm_getters
   string base_template();
   string end_program();
 }
-
-//TODO: remove when no longer needed
-namespace operations
-{
-  bool declare_variable(ostream& target, std::map<string, int>& variable_table, const string name, const int value, int& stack_ptr);
-  bool assign_to_variable(ostream& target, std::map<string, int>& variable_table, const string name, const int value, const int stack_ptr);
-  bool print_variable(ostream& target, const std::map<string, int>& variable_table, const string name, const int stack_ptr);
-}
-
