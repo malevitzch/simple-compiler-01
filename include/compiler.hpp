@@ -16,6 +16,10 @@ private:
 public:
   Compiler() = delete;
   Compiler(ostream& target);
+  //TODO: implement the operations functions
+  bool declare_variable(const string name, const int value);
+  bool assign_to_variable(const string name, const int value);
+  bool print_variable(const string name) const;
 };
 
 namespace asm_getters
@@ -27,6 +31,7 @@ namespace asm_getters
   string end_program();
 }
 
+//namespace operations and its member functions are deprecated
 namespace operations
 {
   bool declare_variable(ostream& target, std::map<string, int>& variable_table, const string name, const int value, int& stack_ptr);
