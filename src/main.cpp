@@ -13,5 +13,6 @@ int main()
   operations::declare_variable(output, var_table, "c", 7, ptr);
   operations::assign_to_variable(output, var_table, "a", 17, ptr);
   operations::print_variable(output, var_table, "a", ptr);
+  operations::print_variable(output, var_table, "c", ptr);
   output << asm_getters::end_program();
 }
