@@ -15,4 +15,5 @@ int main()
   operations::print_variable(output, var_table, "a", ptr);
   operations::print_variable(output, var_table, "c", ptr);
   output << asm_getters::end_program();
+  //test program that prints the values of a and c
 }
