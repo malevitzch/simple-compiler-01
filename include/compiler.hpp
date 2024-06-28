@@ -7,6 +7,17 @@ bool is_variable_registered(const std::map<string, int>& variable_table, const s
 //Registers variable in the specified variable table with set name and value, increments the stack ptr by 1. If a variable of the specified value is 
 bool register_variable(std::map<string, int>& variable_table, const string name, const int value, int& stack_ptr);
 
+class Compiler
+{
+private:
+  ostream& target;
+  int stack_ptr = 0;
+  std::map<string, int> variable_table;
+public:
+  Compiler() = delete;
+  Compiler(ostream& target);
+};
+
 namespace asm_getters
 {
   string create_variable(const int value);
