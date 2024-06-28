@@ -6,7 +6,7 @@ using std::ostream;
 bool is_variable_registered(const std::map<string, int>& variable_table, const string name);
 //Registers variable in the specified variable table with set name and value, increments the stack ptr by 1. If a variable of the specified value is 
 bool register_variable(std::map<string, int>& variable_table, const string name, const int value, int& stack_ptr);
-
+//test comment
 class Compiler
 {
 private:
