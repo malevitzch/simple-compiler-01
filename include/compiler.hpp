@@ -11,4 +11,5 @@ namespace asm_getters
   string register_variable(const int value);
   string modify_variable(const int value, const int target_ptr, const int stack_ptr);
   string print_variable(const int target_ptr, const int stack_ptr);
+  string base_template();
 }
