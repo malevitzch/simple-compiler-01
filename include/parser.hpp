@@ -1,6 +1,7 @@
 #pragma once
-#include "compiler.hpp"
-
+#include <string>
+using std::string;
+class Compiler;
 //all operations inherit from this abstract class so
 class Operation
 {
