@@ -1,4 +1,6 @@
 #include "../include/parser.hpp"
+#include "../include/compiler.hpp"
+void CompilerOperation::process(Compiler& compiler) {}
 
 DeclarationOperation::DeclarationOperation(string variable_name, int value) : variable_name(variable_name),  value(value) {}
 void DeclarationOperation::process(Compiler& compiler)

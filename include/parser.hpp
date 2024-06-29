@@ -1,21 +1,21 @@
 #pragma once
 #include <string>
-using std::string;
 class Compiler;
+using std::string;
 //all operations inherit from this class
-class Operation
+class CompilerOperation
 {
 private:
 protected:
-  Operation();
+  
 public:
+  CompilerOperation() = default;
   virtual void process(Compiler& compiler);
 };
 
-class DeclarationOperation : public Operation
+class DeclarationOperation : public CompilerOperation
 {
 private:
-  DeclarationOperation() = delete;
   string variable_name;
   int value;
 public:
@@ -23,7 +23,7 @@ public:
   void process(Compiler& compiler);
 };
 
-class AssignmentOperation : public Operation
+class AssignmentOperation : public CompilerOperation
 {
 private:
   AssignmentOperation() = delete;
@@ -34,7 +34,7 @@ public:
   void process(Compiler& compiler);
 };
 
-class PrintOperation : public Operation
+class PrintOperation : public CompilerOperation
 {
 private:
   PrintOperation() = delete;

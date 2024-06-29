@@ -1,12 +1,14 @@
 #pragma once
 #include <iostream>
 #include <map>
+#include <vector>
+#include "../include/parser.hpp"
 using std::string;
 using std::ostream;
-class Operation;
 class Compiler
 {
 private:
+  std::vector<CompilerOperation> operations;
   ostream& target;
   int stack_ptr = 0;
   std::map<string, int> variable_table;
@@ -15,6 +17,8 @@ private:
 public:
   Compiler() = delete;
   Compiler(ostream& target);
+
+  void add_operation(CompilerOperation operation); //potentially might be a bool but the general idea is that an operation should be vaild
   bool declare_variable(string name, int value);
   bool assign_to_variable(string name, int value);
   bool print_variable(string name) const;

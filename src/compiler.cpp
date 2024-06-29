@@ -1,5 +1,7 @@
 #include <iostream>
 #include "../include/compiler.hpp" 
+#include "../include/parser.hpp"
+
 bool Compiler::is_variable_registered(string name) const
 {
   return variable_table.find(name) != variable_table.end();
@@ -14,12 +16,21 @@ bool Compiler::register_variable(string name, int value)
   variable_table[name] = ++stack_ptr;
   return true;
 }
+
+Compiler::Compiler(ostream& target) : target(target) {}
+
+void Compiler::add_operation(CompilerOperation operation)
+{
+  operations.push_back(operation);
+}
+
 bool Compiler::declare_variable(string name, int value)
 {
   if(!register_variable(name, value)) return false; //return false as for failure in case of registration failure
   target << asm_getters::create_variable(value);
   return true;
 }
+
 bool Compiler::assign_to_variable(string name, int value)
 {
   if(!is_variable_registered(name)) return false; //return false in case we try to access a variable that does not exist
@@ -32,7 +43,6 @@ bool Compiler::print_variable(string name) const
   target << asm_getters::print_variable(variable_table.at(name), stack_ptr);
   return true;
 }
-Compiler::Compiler(ostream& target) : target(target) {}
 
 namespace asm_getters
 {
