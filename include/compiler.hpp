@@ -3,7 +3,7 @@
 #include <map>
 using std::string;
 using std::ostream;
-
+class Operation;
 class Compiler
 {
 private:
@@ -19,7 +19,7 @@ public:
   bool assign_to_variable(string name, int value);
   bool print_variable(string name) const;
 };
-
+//TODO: eventually, those will need to be moved to a member class inside of Compiler itself. Not yet though
 namespace asm_getters
 {
   string create_variable(int value);
