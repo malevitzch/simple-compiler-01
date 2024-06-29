@@ -2,14 +2,14 @@
 #include <string>
 using std::string;
 class Compiler;
-//all operations inherit from this abstract class so
+//all operations inherit from this class so
 class Operation
 {
 private:
 protected:
   Operation();
 public:
-  virtual void process(Compiler& compiler) = 0;
+  virtual void process(Compiler& compiler);
 };
 
 class DeclarationOperation : public Operation
