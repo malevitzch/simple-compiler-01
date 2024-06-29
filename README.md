@@ -7,5 +7,5 @@ The initial goal of this project is to create a simple, not necessarily turing-c
 
 
 TODO:
-- implement compilation 
+- implement the parser 
 - provide a reasonable and convenient command to compile files 
