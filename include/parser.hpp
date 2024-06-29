@@ -2,7 +2,7 @@
 #include <string>
 using std::string;
 class Compiler;
-//all operations inherit from this class so
+//all operations inherit from this class
 class Operation
 {
 private:
