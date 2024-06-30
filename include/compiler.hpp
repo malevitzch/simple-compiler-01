@@ -8,19 +8,19 @@ using std::ostream;
 class Compiler
 {
 private:
-  std::vector<CompilerOperation> operations;
+  std::vector<CompilerOperation*> operations;
   ostream& target;
   int stack_ptr = 0;
   std::map<string, int> variable_table;
   bool is_variable_registered(string name) const;
   bool register_variable(string name, int value);
-  bool process_operation(CompilerOperation operation);
+  bool process_operation(CompilerOperation* operation);
   
 public:
   Compiler() = delete;
   Compiler(ostream& target);
   bool process_all();
-  void add_operation(CompilerOperation operation); //potentially might be a bool but the general idea is that an operation should be vaild by default
+  void add_operation(CompilerOperation* operation); //potentially might be a bool but the general idea is that an operation should be vaild by default
 
   bool declare_variable(string name, int value);
   bool assign_to_variable(string name, int value);

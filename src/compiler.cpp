@@ -16,14 +16,14 @@ bool Compiler::register_variable(string name, int value)
   variable_table[name] = ++stack_ptr;
   return true;
 }
-bool Compiler::process_operation(CompilerOperation operation)
+bool Compiler::process_operation(CompilerOperation* operation)
 {
-  return operation.process(*this);
+  return operation->process(*this);
 }
 
 Compiler::Compiler(ostream& target) : target(target) {}
 
-void Compiler::add_operation(CompilerOperation operation)
+void Compiler::add_operation(CompilerOperation* operation)
 {
   operations.push_back(operation);
 }
@@ -31,7 +31,7 @@ void Compiler::add_operation(CompilerOperation operation)
 bool Compiler::process_all() //potentially could return an optional information about which op fails
 {
   std::cout << "Operation count is " << operations.size() << "\n";
-  for(CompilerOperation& operation : operations)
+  for(CompilerOperation* operation : operations)
   {
     if(!process_operation(operation)) return false;
   }

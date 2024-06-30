@@ -5,18 +5,20 @@ bool CompilerOperation::process(Compiler& compiler) {std::cout<<"Error: operatio
 DeclarationOperation::DeclarationOperation(string variable_name, int value) : variable_name(variable_name),  value(value) {}
 bool DeclarationOperation::process(Compiler& compiler)
 {
-  std::cout<< "DECLARED" << variable_name << "\n";
+  std::cout << "DECLARED " << variable_name << "\n";
   return compiler.declare_variable(variable_name, value);
 }
 
 AssignmentOperation::AssignmentOperation(string variable_name, int value) : variable_name(variable_name), value(value) {}
 bool AssignmentOperation::process(Compiler& compiler)
 {
+  std::cout << "SET VALUE OF " << variable_name << " TO " <<value << "\n";
   return compiler.assign_to_variable(variable_name, value);
 }
 
 PrintOperation::PrintOperation(string variable_name) : variable_name(variable_name) {}
 bool PrintOperation::process(Compiler& compiler)
 {
+  std::cout << "PRINTED " << variable_name << "\n";
   return compiler.print_variable(variable_name);
 }
