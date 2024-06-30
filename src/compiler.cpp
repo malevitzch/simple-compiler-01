@@ -20,6 +20,14 @@ bool Compiler::process_operation(CompilerOperation operation)
 {
   return operation.process(*this);
 }
+
+Compiler::Compiler(ostream& target) : target(target) {}
+
+void Compiler::add_operation(CompilerOperation operation)
+{
+  operations.push_back(operation);
+}
+
 bool Compiler::process_all() //potentially could return an optional information about which op fails
 {
   for(CompilerOperation& operation : operations)
@@ -27,12 +35,6 @@ bool Compiler::process_all() //potentially could return an optional information 
     if(!process_operation(operation)) return false;
   }
   return true;
-}
-Compiler::Compiler(ostream& target) : target(target) {}
-
-void Compiler::add_operation(CompilerOperation operation)
-{
-  operations.push_back(operation);
 }
 
 bool Compiler::declare_variable(string name, int value)

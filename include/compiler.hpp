@@ -15,11 +15,11 @@ private:
   bool is_variable_registered(string name) const;
   bool register_variable(string name, int value);
   bool process_operation(CompilerOperation operation);
-  bool process_all();
+  
 public:
   Compiler() = delete;
   Compiler(ostream& target);
-
+  bool process_all();
   void add_operation(CompilerOperation operation); //potentially might be a bool but the general idea is that an operation should be vaild by default
 
   bool declare_variable(string name, int value);
