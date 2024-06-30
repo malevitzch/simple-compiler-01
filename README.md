@@ -8,5 +8,6 @@ The initial goal of this project is to create a simple, not necessarily turing-c
 
 TODO:
 - add variable name verification to declaration operations
+- add destructor to compiler so that memory is freed properly
 - implement the parser 
 - provide a reasonable and convenient command to compile files 
