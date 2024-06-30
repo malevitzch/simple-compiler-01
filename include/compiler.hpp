@@ -14,11 +14,14 @@ private:
   std::map<string, int> variable_table;
   bool is_variable_registered(string name) const;
   bool register_variable(string name, int value);
+  bool process_operation(CompilerOperation operation);
+  bool process_all();
 public:
   Compiler() = delete;
   Compiler(ostream& target);
 
-  void add_operation(CompilerOperation operation); //potentially might be a bool but the general idea is that an operation should be vaild
+  void add_operation(CompilerOperation operation); //potentially might be a bool but the general idea is that an operation should be vaild by default
+
   bool declare_variable(string name, int value);
   bool assign_to_variable(string name, int value);
   bool print_variable(string name) const;
