@@ -18,7 +18,7 @@ private:
   int value;
 public:
   DeclarationOperation(string variable_name, int value);
-  bool process(Compiler& compiler);
+  bool process(Compiler& compiler) override;
 };
 
 class AssignmentOperation : public CompilerOperation
@@ -29,7 +29,7 @@ private:
   int value;
 public:
   AssignmentOperation(string variable_name, int value);
-  bool process(Compiler& compiler);
+  bool process(Compiler& compiler) override;
 };
 
 class PrintOperation : public CompilerOperation
@@ -39,5 +39,5 @@ private:
   string variable_name;
 public:
   PrintOperation(string variable_name);
-  bool process(Compiler& compiler);
+  bool process(Compiler& compiler) override;
 };

@@ -30,6 +30,7 @@ void Compiler::add_operation(CompilerOperation operation)
 
 bool Compiler::process_all() //potentially could return an optional information about which op fails
 {
+  std::cout << "Operation count is " << operations.size() << "\n";
   for(CompilerOperation& operation : operations)
   {
     if(!process_operation(operation)) return false;

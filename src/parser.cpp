@@ -1,10 +1,11 @@
 #include "../include/parser.hpp"
 #include "../include/compiler.hpp"
-bool CompilerOperation::process(Compiler& compiler) {return true;}
+bool CompilerOperation::process(Compiler& compiler) {std::cout<<"Error: operation without type\n"; return true;}
 
 DeclarationOperation::DeclarationOperation(string variable_name, int value) : variable_name(variable_name),  value(value) {}
 bool DeclarationOperation::process(Compiler& compiler)
 {
+  std::cout<< "DECLARED" << variable_name << "\n";
   return compiler.declare_variable(variable_name, value);
 }
 
