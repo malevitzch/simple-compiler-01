@@ -1,21 +1,21 @@
 #include "../include/parser.hpp"
 #include "../include/compiler.hpp"
-void CompilerOperation::process(Compiler& compiler) {}
+bool CompilerOperation::process(Compiler& compiler) {return true;}
 
 DeclarationOperation::DeclarationOperation(string variable_name, int value) : variable_name(variable_name),  value(value) {}
-void DeclarationOperation::process(Compiler& compiler)
+bool DeclarationOperation::process(Compiler& compiler)
 {
-  compiler.declare_variable(variable_name, value);
+  return compiler.declare_variable(variable_name, value);
 }
 
 AssignmentOperation::AssignmentOperation(string variable_name, int value) : variable_name(variable_name), value(value) {}
-void AssignmentOperation::process(Compiler& compiler)
+bool AssignmentOperation::process(Compiler& compiler)
 {
-  compiler.assign_to_variable(variable_name, value);
+  return compiler.assign_to_variable(variable_name, value);
 }
 
 PrintOperation::PrintOperation(string variable_name) : variable_name(variable_name) {}
-void PrintOperation::process(Compiler& compiler)
+bool PrintOperation::process(Compiler& compiler)
 {
-  compiler.print_variable(variable_name);
+  return compiler.print_variable(variable_name);
 }

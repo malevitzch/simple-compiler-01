@@ -6,11 +6,9 @@ using std::string;
 class CompilerOperation
 {
 private:
-protected:
-  
 public:
   CompilerOperation() = default;
-  virtual void process(Compiler& compiler);
+  virtual bool process(Compiler& compiler);
 };
 
 class DeclarationOperation : public CompilerOperation
@@ -20,7 +18,7 @@ private:
   int value;
 public:
   DeclarationOperation(string variable_name, int value);
-  void process(Compiler& compiler);
+  bool process(Compiler& compiler);
 };
 
 class AssignmentOperation : public CompilerOperation
@@ -31,7 +29,7 @@ private:
   int value;
 public:
   AssignmentOperation(string variable_name, int value);
-  void process(Compiler& compiler);
+  bool process(Compiler& compiler);
 };
 
 class PrintOperation : public CompilerOperation
@@ -41,5 +39,5 @@ private:
   string variable_name;
 public:
   PrintOperation(string variable_name);
-  void process(Compiler& compiler);
+  bool process(Compiler& compiler);
 };
