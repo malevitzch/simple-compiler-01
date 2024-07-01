@@ -25,6 +25,7 @@ public:
   bool declare_variable(string name, int value);
   bool assign_to_variable(string name, int value);
   bool print_variable(string name) const;
+  ~Compiler();
 };
 //TODO: eventually, those will need to be moved to a member class inside of Compiler itself. Not yet though
 namespace asm_getters

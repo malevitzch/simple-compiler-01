@@ -57,6 +57,13 @@ bool Compiler::print_variable(string name) const
   target << asm_getters::print_variable(variable_table.at(name), stack_ptr);
   return true;
 }
+Compiler::~Compiler()
+{
+  for(CompilerOperation* operation : operations)
+  {
+    delete operation;
+  }
+}
 
 namespace asm_getters
 {
