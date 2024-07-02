@@ -1,9 +1,22 @@
 #include <iostream>
 #include <fstream>
 #include "../include/compiler.hpp"
-
+#include "../include/linter.hpp"
 int main()
 {
+  std::vector<std::vector<std::string>> tokened = tokenize_file("debug_token_test.txt");
+  for(auto& vec : tokened)
+  {
+    std::cout<<"{";
+    for(auto& token : vec)
+    {
+      std::cout<<"["<<token<<"]";
+    }
+    std::cout<<"}\n";
+  }
+  
+
+  return 0;
   std::ofstream output("debug_asm.S");
   std::map<string, int> var_table;
   Compiler compiler(output);
