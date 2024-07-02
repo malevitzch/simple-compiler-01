@@ -1,7 +1,11 @@
 #include "../include/stringops.hpp"
-
+#include <algorithm>
 namespace auxillary
 {
+  bool valid_name_character(char ch)
+  {
+    return (ch == '_') || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9');
+  }
   bool is_valid_starting_character(char ch)
   {
     return (ch == '_') || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
@@ -32,4 +36,17 @@ namespace auxillary
     }
     return s.substr(l, r - l + 1);
   }
+}
+
+bool is_valid_variable_name(string variable_name)
+{
+  using namespace auxiliary;
+  if(variable_name.size() == 0) return false; //check for empty name
+  if(!is_valid_starting_character(variable_name[0])) return false; //invalid starting character - for example starting with numbers is illegal 
+  
+  return any_of(variable_name.begin(), variable_name.end(), 
+    [](char ch)
+    {
+      return !auxiliary::valid_name_character(ch);
+    });
 }

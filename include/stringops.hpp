@@ -1,8 +1,9 @@
 #include <iostream>
 using std::string;
 
-namespace auxillary
+namespace auxiliary
 {
+  bool valid_name_character(char ch);
   bool is_valid_starting_character(char ch);
   string trim_whitespace(string s);
 
