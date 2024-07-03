@@ -7,7 +7,5 @@ The initial goal of this project is to create a simple, not necessarily turing-c
 
 
 TODO:
-- add variable name verification to declaration operations
-- implement the parser
 - implement the shunting yard algorithm and expand the project with expressions
 - provide a reasonable and convenient command to compile files 
