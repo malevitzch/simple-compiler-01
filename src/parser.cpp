@@ -74,7 +74,7 @@ CompilerOperation* translate_assignment(std::vector<string>& tokens)
     if(tokens.size() == 4)
     {
       if(!is_a_number(tokens[3])) return new InvalidOperation("Invalid number literal: -" + tokens[3]);
-      return new AssignmentOperation(tokens[1], stoi("-" + tokens[2])); //stoi is kinda dangerous
+      return new AssignmentOperation(tokens[1], stoi("-" + tokens[3])); //stoi is kinda dangerous
     }
     else
     {

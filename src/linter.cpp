@@ -102,6 +102,7 @@ std::vector<std::vector<string>> tokenize_file(string filename)
           } 
         }
         cur_token += cur_char;
+        cur_type = CharType::Regular;
       }
     }
   }

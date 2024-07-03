@@ -2,32 +2,31 @@
 #include <fstream>
 #include "../include/compiler.hpp"
 #include "../include/linter.hpp"
-int main()
-{
-  std::vector<std::vector<std::string>> tokened = tokenize_file("debug_token_test.txt");
-  for(auto& vec : tokened)
-  {
-    std::cout<<"{";
-    for(auto& token : vec)
-    {
-      std::cout<<"["<<token<<"]";
-    }
-    std::cout<<"}\n";
-  }
-  
 
-  return 0;
-  std::ofstream output("debug_asm.S");
+bool compile(string input_file, string output_file)
+{
+  //TODO: check if file exists
+  std::vector<std::vector<std::string>> operations = tokenize_file(input_file);
+  std::ofstream output(output_file);
   std::map<string, int> var_table;
   Compiler compiler(output);
   output << asm_getters::base_template();
-  compiler.add_operation(new DeclarationOperation("a", 1));
-  compiler.add_operation(new DeclarationOperation("b", 1));
-  compiler.add_operation(new DeclarationOperation("c", 1));
-  compiler.add_operation(new AssignmentOperation("a", -2366));
-  compiler.add_operation(new PrintOperation("a"));
-  compiler.add_operation(new PrintOperation("c"));
+  for(std::vector<string>& statement : operations)
+  {
+    compiler.add_operation(translate_statement(statement));
+  }
   compiler.process_all();
   output << asm_getters::end_program();
-  //test program that prints the values of a and c
+  return true;
+}
+
+int main()
+{
+  string filename_in;
+  std::cout<<"Please input the name of the input file: ";
+  std::cin>>filename_in;
+  string filename_out;
+  std::cout<<"Please input the name of the output file: ";
+  std::cin>>filename_out;
+  compile(filename_in, filename_out);
 }

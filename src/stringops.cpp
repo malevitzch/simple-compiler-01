@@ -44,10 +44,10 @@ bool is_valid_variable_name(string variable_name)
   if(variable_name.size() == 0) return false; //check for empty name
   if(!is_valid_starting_character(variable_name[0])) return false; //invalid starting character - for example starting with numbers is illegal 
   
-  return any_of(variable_name.begin(), variable_name.end(), 
+  return all_of(variable_name.begin(), variable_name.end(), 
     [](char ch)
     {
-      return !valid_name_character(ch);
+      return valid_name_character(ch);
     });
 }
 
