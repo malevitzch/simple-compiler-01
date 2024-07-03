@@ -1,6 +1,6 @@
 #include "../include/stringops.hpp"
 #include <algorithm>
-namespace auxillary
+namespace auxiliary
 {
   bool valid_name_character(char ch)
   {
@@ -47,6 +47,15 @@ bool is_valid_variable_name(string variable_name)
   return any_of(variable_name.begin(), variable_name.end(), 
     [](char ch)
     {
-      return !auxiliary::valid_name_character(ch);
+      return !valid_name_character(ch);
     });
+}
+
+bool is_a_number(string potential_number)
+{
+  return std::all_of(potential_number.begin(), potential_number.end(),
+     [](char ch)
+     {
+        return ch >= '0' && ch <= '9';
+     });
 }

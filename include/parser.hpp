@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 class Compiler;
 using std::string;
 //all operations inherit from this class
@@ -9,6 +10,15 @@ private:
 public:
   CompilerOperation() = default;
   virtual bool process(Compiler& compiler);
+};
+
+class InvalidOperation : public CompilerOperation
+{
+private:
+  string error_message;
+public:
+  InvalidOperation(string error_message);
+  bool process(Compiler& compiler) override;
 };
 
 class DeclarationOperation : public CompilerOperation
@@ -41,3 +51,20 @@ public:
   PrintOperation(string variable_name);
   bool process(Compiler& compiler) override;
 };
+
+enum class Directive
+{
+  Declaration,
+  Assignment,
+  Print,
+  NaD //Parsing error type
+};
+Directive get_operation(string opname);
+
+CompilerOperation* translate_declaration(std::vector<string>& tokens);
+
+CompilerOperation* translate_assignment(std::vector<string>& tokens);
+
+CompilerOperation* translate_print(std::vector<string>& tokens);
+
+CompilerOperation* translate_statement(std::vector<string> tokens);
