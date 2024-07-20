@@ -1,28 +1,51 @@
 #include "linter.hpp"
+#include <iostream>
+#include <fstream>
+#include <algorithm>
 #include <set>
-//This assumes the file exists. Todo: add error handling. I'm thinking variant or optional return type?
-
-bool is_singleton(char ch)
+namespace char_tests
 {
-  std::set<char> singletons = 
+  bool is_singleton(char ch)
   {
-    '(', ')', '{', '}', '[', ']', '?', '!', 
-  };
-  return singletons.find(ch) != singletons.end();
+    std::set<char> singletons = 
+    {
+      '(', ')', '{', '}', '[', ']', '?', '!', 
+    };
+    return singletons.find(ch) != singletons.end();
+  }
+  bool is_operator(char ch)
+  {
+    std::set<char> operators = 
+    {
+      '+', '-', '*', '/', '>', '<', '=', '#'
+    };
+    return operators.find(ch) != operators.end();
+  }
+  bool is_regular(char ch)
+  {
+    return (ch == '_') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
+  }
+  bool is_digit(char ch)
+  {
+    return ch >= '0' && ch <= '9';
+  }
 }
-bool is_operator(char ch)
+CharType get_type(char ch)
 {
-  std::set<char> operators = 
-  {
-    '+', '-', '*', '/', '>', '<', '=', '#'
-  };
-  return operators.find(ch) != operators.end();
+  using namespace char_tests;
+  if(isspace(ch)) return CharType::Whitespace;
+  if(is_regular(ch)) return CharType::Regular;
+  if(is_digit(ch)) return CharType::Digit;
+  if(is_operator(ch)) return CharType::Operator;
+  if(is_singleton(ch)) return CharType::Singleton;
+  return CharType::None;
 }
+//This assumes the file exists. Todo: add error handling. I'm thinking variant or optional return type? NVM, probably exceptions
 std::vector<std::vector<string>> tokenize_file(string filename)
 {
+  using namespace char_tests;
   std::vector<std::vector<string>> tokenized_file;
   std::fstream file_stream(filename);
-  
   file_stream >> std::noskipws;
   bool finished = false;
   CharType cur_type = CharType::None;
