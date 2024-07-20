@@ -54,7 +54,7 @@ std::vector<std::vector<string>> tokenize_file(string filename)
   std::vector<string> cur_statement = {};
   auto finish_token = [&cur_type, &cur_token, &cur_statement]()
   {
-    if(cur_token.size() == 0) return;
+    if(!cur_token.empty()) return;
     if(cur_type == CharType::Operator)
     {
       //TODO: apply Trie split here
@@ -62,13 +62,13 @@ std::vector<std::vector<string>> tokenize_file(string filename)
     else
     {
       cur_statement.push_back(cur_token);
-      cur_token = "";
     }
+    cur_token = "";
   };
   auto finish_statement = [&finish_token, &statements, &cur_statement]()
   {
     finish_token();
-    if(cur_statement.size() == 0) return;
+    if(cur_statement.empty()) return;
     statements.push_back(cur_statement);
     cur_statement.clear();
   };
