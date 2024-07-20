@@ -118,7 +118,10 @@ std::vector<std::vector<string>> tokenize_file(string filename)
         //handle unknown character here
         break;
     }
-    finish_statement();
+  }
+  if(!cur_statement.empty())
+  {
+    //handle lack of closing ; here
   }
   return statements;
 }
