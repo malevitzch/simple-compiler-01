@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "compiler.hpp"
-#include "linter.hpp"
+#include "lexer.hpp"
 
 bool compile(string input_file, string output_file)
 {
