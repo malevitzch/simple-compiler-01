@@ -9,7 +9,7 @@ namespace char_tests
   {
     std::set<char> singletons = 
     {
-      '(', ')', '{', '}', '[', ']', '?', '!', 
+      '(', ')', '{', '}', '[', ']', '?', ';', 
     };
     return singletons.find(ch) != singletons.end();
   }
