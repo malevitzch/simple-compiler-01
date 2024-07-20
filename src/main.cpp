@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include "../include/compiler.hpp"
-#include "../include/linter.hpp"
+#include "compiler.hpp"
+#include "linter.hpp"
 
 bool compile(string input_file, string output_file)
 {

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../include/compiler.hpp" 
-#include "../include/parser.hpp"
+#include "compiler.hpp" 
+#include "parser.hpp"
 
 bool Compiler::is_variable_registered(string name) const
 {

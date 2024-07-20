@@ -1,4 +1,4 @@
-#include "../include/linter.hpp"
+#include "linter.hpp"
 #include <set>
 //This assumes the file exists. Todo: add error handling. I'm thinking variant or optional return type?
 

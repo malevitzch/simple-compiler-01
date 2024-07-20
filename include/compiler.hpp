@@ -2,7 +2,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include "../include/parser.hpp"
+#include "parser.hpp"
 using std::string;
 using std::ostream;
 class Compiler

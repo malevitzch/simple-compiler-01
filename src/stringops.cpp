@@ -1,4 +1,4 @@
-#include "../include/stringops.hpp"
+#include "stringops.hpp"
 #include <algorithm>
 namespace auxiliary
 {
