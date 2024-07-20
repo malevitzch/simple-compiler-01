@@ -1,7 +1,6 @@
 #include "linter.hpp"
 #include <iostream>
 #include <fstream>
-#include <algorithm>
 #include <set>
 namespace char_tests
 {
@@ -17,7 +16,7 @@ namespace char_tests
   {
     std::set<char> operators = 
     {
-      '+', '-', '*', '/', '>', '<', '=', '#'
+      '+', '-', '*', '/', '>', '<', '=', '!'
     };
     return operators.find(ch) != operators.end();
   }
