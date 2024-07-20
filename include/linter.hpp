@@ -9,7 +9,7 @@ enum class CharType
   Regular, //letters and underscore 
   Digit, //digits
   Operator, //characters 
-  Singleton, //brackets etc
+  Singleton, //brackets etc, also semicolons 
   None, //default behavior, basically 'idk what this is'
 };
 namespace char_tests

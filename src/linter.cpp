@@ -44,14 +44,34 @@ CharType get_type(char ch)
 std::vector<std::vector<string>> tokenize_file(string filename)
 {
   using namespace char_tests;
-  std::vector<std::vector<string>> tokenized_file;
+  std::vector<std::vector<string>> statements;
   std::fstream file_stream(filename);
   file_stream >> std::noskipws;
-  bool finished = false;
   CharType cur_type = CharType::None;
   char cur_char;
+  CharType cur_char_type;
   string cur_token = "";
   std::vector<string> cur_statement = {};
+  auto finish_token = [&cur_type, &cur_token, &cur_statement]()
+  {
+    if(cur_token.size() == 0) return;
+    if(cur_type == CharType::Operator)
+    {
+      //TODO: apply Trie split here
+    }
+    else
+    {
+      cur_statement.push_back(cur_token);
+      cur_token = "";
+    }
+  };
+  auto finish_statement = [&finish_token, &statements, &cur_statement]()
+  {
+    finish_token();
+    if(cur_statement.size() == 0) return;
+    statements.push_back(cur_statement);
+    cur_statement.clear();
+  };
   while(true)
   {
     if(file_stream.eof()) 
@@ -63,71 +83,43 @@ std::vector<std::vector<string>> tokenize_file(string filename)
       break;
     }
     file_stream >> cur_char;
-    if(cur_char == ';')
+    cur_char_type = get_type(cur_char);
+    switch(cur_char_type)
     {
-      if(!cur_token.empty())
-      {
-        cur_statement.push_back(cur_token);
-        cur_token = "";
-      }
-      if(!cur_statement.empty())
-      {
-        tokenized_file.push_back(cur_statement);
-        cur_statement = {};
-      }
-      cur_type = CharType::None;
-    }
-    else if(isspace(cur_char))
-    {
-      if(!cur_token.empty())
-      {
-        cur_statement.push_back(cur_token);
-        cur_token = "";
-      }
-      cur_type = CharType::None;
-    }
-    else
-    {
-      if(is_singleton(cur_char))
-      {
-        if(!cur_token.empty())
+      case CharType::Whitespace:
+        finish_token();
+        break;
+      case CharType::Regular:
+        if(cur_type != CharType::Regular) finish_token();
+        cur_type = CharType::Regular;
+        cur_token += cur_char;
+      case CharType::Digit:
+        if(cur_type != CharType::Digit && cur_type != CharType::Regular)
         {
-          cur_statement.push_back(cur_token);
-          cur_token = "";
-        }
-        string temp = "";
-        temp += cur_char;
-        cur_statement.push_back(temp);
-        cur_type = CharType::None;
-      }
-      else if(is_operator(cur_char))
-      {
-        if(cur_type != CharType::Operator && cur_type != CharType::None)
-        {
-          if(!cur_token.empty())
-          {
-            cur_statement.push_back(cur_token);
-            cur_token = "";
-          }
-        }
-      cur_token += cur_char;
-      cur_type = CharType::Operator;
-      }
-      else
-      {
-        //TODO: Add check for character being 'Unknown' 
-        if(cur_type != CharType::Regular && cur_type != CharType::None)
-        {
-          if(!cur_token.empty())
-          {
-            cur_statement.push_back(cur_token);
-            cur_token = "";
-          } 
+          finish_token();
+          cur_type = CharType::Digit;
         }
         cur_token += cur_char;
-        cur_type = CharType::Regular;
-      }
+      case CharType::Operator:
+        if(cur_type != CharType::Operator) finish_token();
+        cur_type = CharType::Operator;
+        cur_token += cur_char;
+      case CharType::Singleton:
+        finish_token();
+        if(cur_char == ';')
+        {
+          finish_statement();
+        }
+        else
+        {
+          cur_token += cur_char;
+          finish_token();
+        }
+      default:
+        //handle unknown character here
+        break;
     }
+    finish_statement();
   }
-  return tokenized_file;
+  return statements;
 }
