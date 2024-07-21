@@ -19,9 +19,21 @@ bool compile(string input_file, string output_file)
   output << asm_getters::end_program();
   return true;
 }
-
+void lexer_test()
+{
+  std::vector<std::vector<string>> s = tokenize_file("debug_input");
+  for(auto v : s)
+  {
+    for(string st : v)
+    {
+      std::cout<<st<<" ";
+    }
+      std::cout << " \n";
+  }
+}
 int main()
 {
+  //lexer_test();
   string filename_in;
   std::cout<<"Please input the name of the input file: ";
   std::cin>>filename_in;
