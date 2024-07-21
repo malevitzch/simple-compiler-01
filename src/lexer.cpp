@@ -5,6 +5,7 @@
 #include <set>
 namespace char_tests
 {
+
   bool is_singleton(char ch)
   {
     std::set<char> singletons = 
@@ -13,6 +14,7 @@ namespace char_tests
     };
     return singletons.find(ch) != singletons.end();
   }
+
   bool is_operator(char ch)
   {
     std::set<char> operators = 
@@ -21,14 +23,17 @@ namespace char_tests
     };
     return operators.find(ch) != operators.end();
   }
+
   bool is_regular(char ch)
   {
     return (ch == '_') || (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
   }
+
   bool is_digit(char ch)
   {
     return ch >= '0' && ch <= '9';
   }
+
 }
 CharType get_type(char ch)
 {
@@ -56,6 +61,13 @@ std::vector<std::vector<string>> tokenize_file(string filename)
   Trie operator_trie(get_operator_symbols());
   std::vector<std::vector<string>> statements;
   std::fstream file_stream(filename);
+  
+  if(!file_stream.good())
+  {
+    throw std::ios_base::failure
+    ("File named \"" + filename + "\" does not exist");
+  }
+
   file_stream >> std::noskipws;
   CharType cur_type = CharType::None;
   char cur_char;
