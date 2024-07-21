@@ -62,6 +62,7 @@ std::vector<std::vector<string>> tokenize_file(string filename)
   CharType cur_char_type;
   string cur_token = "";
   std::vector<string> cur_statement = {};
+
   auto finish_token = [&cur_type, &cur_token, &cur_statement, &operator_trie]()
   {
     if(cur_token.empty()) return;
@@ -77,6 +78,7 @@ std::vector<std::vector<string>> tokenize_file(string filename)
     cur_token = "";
     cur_type = CharType::None;
   };
+
   auto finish_statement = [&finish_token, &statements, &cur_statement]()
   { 
     finish_token();
@@ -84,6 +86,7 @@ std::vector<std::vector<string>> tokenize_file(string filename)
     statements.push_back(cur_statement);
     cur_statement.clear();
   };
+
   while(true)
   {
     if(file_stream.eof()) 
@@ -98,14 +101,17 @@ std::vector<std::vector<string>> tokenize_file(string filename)
     cur_char_type = get_type(cur_char);
     switch(cur_char_type)
     {
+
       case CharType::Whitespace:
         finish_token();
         break;
+
       case CharType::Regular:
         if(cur_type != CharType::Regular) finish_token();
         cur_type = CharType::Regular;
         cur_token += cur_char;
         break;
+
       case CharType::Digit:
         if(cur_type != CharType::Digit && cur_type != CharType::Regular)
         {
@@ -114,11 +120,13 @@ std::vector<std::vector<string>> tokenize_file(string filename)
         }
         cur_token += cur_char;
         break;
+
       case CharType::Operator:
         if(cur_type != CharType::Operator) finish_token();
         cur_type = CharType::Operator;
         cur_token += cur_char;
         break;
+
       case CharType::Singleton:
         finish_token();
         if(cur_char == ';')
@@ -131,11 +139,13 @@ std::vector<std::vector<string>> tokenize_file(string filename)
           finish_token();
         }
         break;
+
       default:
         //handle unknown character here
         break;
     }
   }
+
   if(!cur_statement.empty())
   {
     //handle lack of closing ; here
