@@ -21,4 +21,6 @@ namespace char_tests
 }
 CharType get_type(char ch);
 
+std::vector<string> get_operator_symbols(); //TODO: move this function to operators with shunting yard algorithm
+
 std::vector<std::vector<string>> tokenize_file(string filename); 

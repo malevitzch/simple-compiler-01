@@ -1,4 +1,5 @@
 #include "lexer.hpp"
+#include "operator_trie.hpp"
 #include <iostream>
 #include <fstream>
 #include <set>
@@ -39,10 +40,20 @@ CharType get_type(char ch)
   if(is_singleton(ch)) return CharType::Singleton;
   return CharType::None;
 }
+
+std::vector<string> get_operator_symbols()
+{
+  return 
+  {
+    "+", "-", "*", "/", "!", "=", "+=", "-=", "*=", "/="
+  };
+}
+
 //This assumes the file exists. Todo: add error handling. I'm thinking variant or optional return type? NVM, probably exceptions
 std::vector<std::vector<string>> tokenize_file(string filename)
 {
   using namespace char_tests;
+  Trie operator_trie(get_operator_symbols());
   std::vector<std::vector<string>> statements;
   std::fstream file_stream(filename);
   file_stream >> std::noskipws;
@@ -51,12 +62,13 @@ std::vector<std::vector<string>> tokenize_file(string filename)
   CharType cur_char_type;
   string cur_token = "";
   std::vector<string> cur_statement = {};
-  auto finish_token = [&cur_type, &cur_token, &cur_statement]()
+  auto finish_token = [&cur_type, &cur_token, &cur_statement, &operator_trie]()
   {
     if(!cur_token.empty()) return;
     if(cur_type == CharType::Operator)
     {
-      //TODO: apply Trie split here
+      std::vector<string> split = operator_trie.split_string(cur_token);
+      cur_statement.insert(cur_statement.end(), split.begin(), split.end());
     }
     else
     {
