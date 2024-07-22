@@ -106,19 +106,9 @@ std::vector<std::vector<string>> tokenize_file(string filename)
     cur_statement.clear();
   };
   
-  while(true)
+  //loop runs until EOF
+  while(!file_stream.eof())
   {
-    //If file is done, end the loop
-    if(file_stream.eof()) 
-    {
-      if(!cur_statement.empty())
-      {
-        //Handle syntax error. Basically last line has no semicolon
-        //TODO: this should not be an exception, rather a build message that halts later compilation steps 
-        throw std::runtime_error("No semicolon at the end of last statement");
-      }
-      break;
-    }
     //Get the next character from the file stream
     file_stream >> cur_char; 
     //Determine the type of the character
@@ -176,6 +166,13 @@ std::vector<std::vector<string>> tokenize_file(string filename)
         //handle unknown character here
         break;
     }
+  }
+
+  if(!cur_statement.empty())
+  {
+    //Handle syntax error. Basically last line has no semicolon
+    //TODO: this should not be an exception, rather a build message that halts later compilation steps 
+    throw std::runtime_error("No semicolon at the end of last statement");
   }
 
   return statements;
