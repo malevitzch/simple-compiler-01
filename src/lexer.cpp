@@ -108,6 +108,7 @@ std::vector<std::vector<string>> tokenize_file(string filename)
   
   while(true)
   {
+    //If file is done, end the loop
     if(file_stream.eof()) 
     {
       if(!cur_statement.empty())
@@ -118,22 +119,29 @@ std::vector<std::vector<string>> tokenize_file(string filename)
       }
       break;
     }
+    //Get the next character from the file stream
     file_stream >> cur_char; 
+    //Determine the type of the character
     cur_char_type = get_type(cur_char);
+    //Proceed accordingly to the type
     switch(cur_char_type)
     {
-
+      //Whitespace means that we need to end any token we currently have but is not added to a new token
       case CharType::Whitespace:
         finish_token();
         break;
-
+      
+      //Regular means keyword/varname
       case CharType::Regular:
+        //if the current token is not a Regular token, we need to finish it before appending the character
         if(cur_type != CharType::Regular) finish_token();
         cur_type = CharType::Regular;
         cur_token += cur_char;
         break;
 
+      //Digits can be either a number literal or part of a variable name (but cannot be the start of one)
       case CharType::Digit:
+        //If current type is neither Digit nor Regular, then we need to finish the token and start a new token of Digit type which will be a number literal (since anything starting with a digit will be one)
         if(cur_type != CharType::Digit && cur_type != CharType::Regular)
         {
           finish_token();
@@ -141,15 +149,18 @@ std::vector<std::vector<string>> tokenize_file(string filename)
         }
         cur_token += cur_char;
         break;
-
+        
+      //Operators are handled the roughly same way Regular characters are aside from the way that finish_token works on them
       case CharType::Operator:
         if(cur_type != CharType::Operator) finish_token();
         cur_type = CharType::Operator;
         cur_token += cur_char;
         break;
-
+      
+      //Singleton characters such as brackets and semicolons instantly finish the current token
       case CharType::Singleton:
         finish_token();
+        //If the character is a semicolon, we need to finish the current statement (but semicolon is not appended)
         if(cur_char == ';')
         {
           finish_statement();
