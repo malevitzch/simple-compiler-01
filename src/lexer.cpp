@@ -54,7 +54,6 @@ std::vector<string> get_operator_symbols()
   };
 }
 
-//This assumes the file exists. Todo: add error handling. I'm thinking variant or optional return type? NVM, probably exceptions
 std::vector<std::vector<string>> tokenize_file(string filename)
 {
   using namespace char_tests;
@@ -62,22 +61,29 @@ std::vector<std::vector<string>> tokenize_file(string filename)
   std::vector<std::vector<string>> statements;
   std::fstream file_stream(filename);
   
+  //Throw an exception in case the input file does not exist (This is preferred behavior, if user does not want the program to crash then they should check validity of filenames
   if(!file_stream.good())
   {
-    throw std::ios_base::failure
-    ("File named \"" + filename + "\" does not exist");
+    throw std::ios_base::failure("File named \"" + filename + "\" does not exist");
   }
 
+  //Prevent the file stream from skipping whitespace
   file_stream >> std::noskipws;
+
+  //Declarations of variables
   CharType cur_type = CharType::None;
   char cur_char;
   CharType cur_char_type;
   string cur_token = "";
   std::vector<string> cur_statement = {};
-
+  
+  //Lambda that flushes the buffer and adds the token(s) to current statement
   auto finish_token = [&cur_type, &cur_token, &cur_statement, &operator_trie]()
   {
+    //We do not add empty tokens, this is especially important in the case of something like ";;;"
     if(cur_token.empty()) return;
+
+    //Operators are handled differently as they are initially bundles into a token together and then split using trie
     if(cur_type == CharType::Operator)
     {
       std::vector<string> split = operator_trie.split_string(cur_token);
@@ -90,7 +96,8 @@ std::vector<std::vector<string>> tokenize_file(string filename)
     cur_token = "";
     cur_type = CharType::None;
   };
-
+  
+  //Lambda that finishes the current statement and adds it to the statements vector
   auto finish_statement = [&finish_token, &statements, &cur_statement]()
   { 
     finish_token();
@@ -98,14 +105,16 @@ std::vector<std::vector<string>> tokenize_file(string filename)
     statements.push_back(cur_statement);
     cur_statement.clear();
   };
-
+  
   while(true)
   {
     if(file_stream.eof()) 
     {
       if(!cur_statement.empty())
       {
-        //handle code error. Basically last line has no semicolon
+        //Handle syntax error. Basically last line has no semicolon
+        //TODO: this should not be an exception, rather a build message that halts later compilation steps 
+        throw std::runtime_error("No semicolon at the end of last statement");
       }
       break;
     }
@@ -158,9 +167,5 @@ std::vector<std::vector<string>> tokenize_file(string filename)
     }
   }
 
-  if(!cur_statement.empty())
-  {
-    //handle lack of closing ; here
-  }
   return statements;
 }
