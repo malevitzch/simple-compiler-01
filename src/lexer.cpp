@@ -164,6 +164,9 @@ std::vector<std::vector<string>> tokenize_file(string filename)
 
       default:
         //handle unknown character here
+        string s = "";
+        s += cur_char;
+        throw std::runtime_error("Unknown character \"" + s + "\"\n");
         break;
     }
   }
