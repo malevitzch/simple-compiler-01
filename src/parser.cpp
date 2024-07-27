@@ -1,7 +1,6 @@
 #include "parser.hpp"
 #include "compiler.hpp"
 #include "stringops.hpp"
-#include "operators.hpp"
 bool CompilerOperation::process(Compiler& compiler) {std::cout<<"Error: operation without type\n"; return true;}
 
 DeclarationOperation::DeclarationOperation(string variable_name, int value) : variable_name(variable_name),  value(value) {}
