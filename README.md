@@ -5,7 +5,7 @@ The initial goal of this project is to create a simple, not necessarily turing-c
 - PRINT [name] (which prints the value of the 32-bit integer variable with specified name)])
 - ASSIGN [name] [value] (which sets the value of an already declared variable with the specified name)
 
-In the future though, ASSING directive will be scrapped once the = operator is implemented. Additionally, IF ... ENDIF directive is also to be considered as the implementation does not exceed my abilities.
+In the future though, ASSIGN directive will be scrapped once the = operator is implemented. Additionally, IF ... ENDIF directive is also to be considered as the implementation does not exceed my abilities.
 
 TODO:
 - integrate the shunting yard algorithm with the project and expand the project with expressions
