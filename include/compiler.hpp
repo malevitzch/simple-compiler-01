@@ -2,9 +2,12 @@
 #include <iostream>
 #include <map>
 #include <vector>
+
 #include "parser.hpp"
+
 using std::string;
 using std::ostream;
+
 class Compiler
 {
 private:

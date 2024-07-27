@@ -1,7 +1,10 @@
+#pragma once
 #include <string>
 #include <vector>
 #include <memory>
+
 using std::string;
+
 class Trie
 { 
 private:

@@ -1,8 +1,12 @@
 #pragma once
 #include <string>
 #include <vector>
-class Compiler;
+
 using std::string;
+
+//forward declaration
+class Compiler;
+
 //all operations inherit from this class
 class CompilerOperation
 {
