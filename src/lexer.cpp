@@ -1,5 +1,6 @@
 #include "lexer.hpp"
 #include "operator_trie.hpp"
+#include "operators.hpp"
 #include <iostream>
 #include <fstream>
 #include <set>
@@ -44,14 +45,6 @@ CharType get_type(char ch)
   if(is_operator(ch)) return CharType::Operator;
   if(is_singleton(ch)) return CharType::Singleton;
   return CharType::None;
-}
-
-std::vector<string> get_operator_symbols()
-{
-  return 
-  {
-    "+", "-", "*", "/", "!", "=", "+=", "-=", "*=", "/="
-  };
 }
 
 std::vector<std::vector<string>> tokenize_file(string filename)

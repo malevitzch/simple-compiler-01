@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
+#include <vector>
 using std::string;
+
+std::vector<string> get_operator_symbols();
+
 enum class OperatorType
 {
   Unary,
