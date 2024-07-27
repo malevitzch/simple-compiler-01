@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
 
 using std::string;
 
@@ -24,4 +25,7 @@ struct Operator
   int precedence;
   Associativity associativity;
   Operator(string name, string symbol, OperatorType type, int precedence, Associativity associativity);
+  Operator() = default;
 };
+
+std::map<string, Operator> get_operator_map();

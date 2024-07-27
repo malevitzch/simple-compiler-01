@@ -29,3 +29,12 @@ void prefix_unary(std::vector<string>& expression)
     }
   }
 }
+
+std::vector<string> infix_to_postfix(std::vector<string> expression)
+{
+  prefix_unary(expression);
+
+  std::vector<string> posfix_expression;
+  
+  return posfix_expression;
+}
