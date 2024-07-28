@@ -60,13 +60,32 @@ std::vector<string> infix_to_postfix(std::vector<string> expression)
     }
     else if(operator_map.find(token) != operator_map.end())
     {
-
+      while(!operator_stack.empty() && operator_stack.top() != "(")
+      {
+        Operator o1 = operator_map[token];
+        Operator o2 = operator_map[operator_stack.top()];
+        if(o2.precedence < o1.precedence || (o1.precedence == o2.precedence && o1.associativity == Associativity::Left))
+        {
+          postfix_expression.push_back(operator_stack.top());
+          operator_stack.pop();
+        }
+        else break;
+      }
+    }
+    else if(token == "(")
+    {
+      operator_stack.push(token);
     }
     else
     {
       postfix_expression.push_back(token);
     }
   }
-
+  while(!operator_stack.empty())
+  {
+    if(operator_stack.top() == "(") throw std::runtime_error("Mismatched parentheses");
+    postfix_expression.push_back(operator_stack.top());
+    operator_stack.pop();
+  }
   return postfix_expression;
 }
