@@ -6,7 +6,13 @@ section .data
   chvar dq '!'
 
 section .text
+
 global _print
+global _operator_addition
+global _operator_subtraction
+global _operator_multiplication
+global _operator_division
+global _operator_modulus
 
 %macro add_char 1
   mov qword [chvar], %1
@@ -74,3 +80,43 @@ _negative:
   print_buffer buffer, buffer_size
   neg rax
   jmp _main_loop
+
+_operator_addition:
+  mov rax, [rsp+8]
+  mov rbx, [rsp+16]
+  add rax, rbx
+  add rsp, 16
+  push rax
+  ret
+
+_operator_subtraction:
+  mov rax, [rsp+8]
+  mov rbx, [rsp+16]
+  sub rbx, rax
+  add rsp, 16
+  push rbx
+  ret
+
+_operator_multiplication:
+  mov rax, [rsp+8]
+  mov rbx, [rsp+16]
+  imul rbx
+  add rsp, 16
+  push rax
+  ret
+
+_operator_division:
+  mov rax, [rsp+16]
+  mov rbx, [rsp+8]
+  cqo
+  idiv rbx
+  push rax
+  ret
+
+_operator_modulus:
+  mov rax, [rsp+16]
+  mov rbx, [rsp+8]
+  cqo
+  idiv rbx
+  push rdx
+  ret
