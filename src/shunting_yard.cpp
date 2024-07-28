@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <stack>
 #include <stdexcept>
-#include <iostream>
 
 #include "operators.hpp"
 #include "shunting_yard.hpp"
