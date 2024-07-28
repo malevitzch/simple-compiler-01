@@ -2,7 +2,7 @@
 #include <fstream>
 #include "compiler.hpp"
 #include "lexer.hpp"
-
+#include "shunting_yard.hpp"
 bool compile(string input_file, string output_file)
 {
   //TODO: check if file exists
@@ -19,21 +19,16 @@ bool compile(string input_file, string output_file)
   output << asm_getters::end_program();
   return true;
 }
-void lexer_test()
+void shunting_test()
 {
-  std::vector<std::vector<string>> s = tokenize_file("debug_input");
-  for(auto v : s)
+  std::vector<string> expr = {"x1", "=", "y1", "*", "(", "-", "a", "+", "b", ")"};
+  for(string s : infix_to_postfix(expr))
   {
-    for(string st : v)
-    {
-      std::cout<<st<<" ";
-    }
-      std::cout << " \n";
+    std::cout<<s<<" ";
   }
 }
 int main()
 {
-  //lexer_test();
   string filename_in;
   std::cout<<"Please input the name of the input file: ";
   std::cin>>filename_in;

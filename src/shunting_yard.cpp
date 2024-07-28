@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <stack>
 #include <stdexcept>
+#include <iostream>
 
 #include "operators.hpp"
 #include "shunting_yard.hpp"
@@ -71,6 +72,7 @@ std::vector<string> infix_to_postfix(std::vector<string> expression)
         }
         else break;
       }
+      operator_stack.push(token);
     }
     else if(token == "(") operator_stack.push(token);
     else postfix_expression.push_back(token);
