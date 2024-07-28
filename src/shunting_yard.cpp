@@ -46,7 +46,7 @@ std::vector<string> infix_to_postfix(std::vector<string> expression)
   {
     if(token == ")")
     {
-      while(1)
+      while(true)
       {
         if(operator_stack.empty())
         {
@@ -72,14 +72,8 @@ std::vector<string> infix_to_postfix(std::vector<string> expression)
         else break;
       }
     }
-    else if(token == "(")
-    {
-      operator_stack.push(token);
-    }
-    else
-    {
-      postfix_expression.push_back(token);
-    }
+    else if(token == "(") operator_stack.push(token);
+    else postfix_expression.push_back(token);
   }
   while(!operator_stack.empty())
   {
