@@ -19,6 +19,7 @@ std::map<string, Operator> get_operator_map()
   operator_map["-"] = Operator("Subtraction", "-", OperatorType::Binary, 2, Associativity::Left);
   operator_map["*"] = Operator("Multiplication", "*", OperatorType::Binary, 1, Associativity::Left);
   operator_map["/"] = Operator("Division", "/", OperatorType::Binary, 1, Associativity::Left);
+  operator_map["%"] = Operator("Modulus", "%", OperatorType::Binary, 1, Associativity::Left);
   operator_map["u-"] = Operator("Negation", "-", OperatorType::Unary, 0, Associativity::Right);
   return operator_map;
 }
