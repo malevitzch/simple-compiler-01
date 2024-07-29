@@ -86,6 +86,7 @@ _operator_addition:
   pop rcx
   mov rax, [rsp+8]
   mov rbx, [rsp]
+  add rsp, 16
   add rax, rbx
   push rax
   jmp rcx
@@ -94,6 +95,7 @@ _operator_subtraction:
   pop rcx
   mov rax, [rsp+8]
   mov rbx, [rsp]
+  add rsp, 16
   sub rax, rbx
   push rax
   jmp rcx
@@ -102,13 +104,16 @@ _operator_multiplication:
   pop rcx
   mov rax, [rsp]
   mov rbx, [rsp+8]
+  add rsp, 16
   imul rax, rbx
+  push rax
   jmp rcx
 
 _operator_division:
   pop rcx
   mov rax, [rsp+8]
   mov rbx, [rsp]
+  add rsp, 16
   cqo
   idiv rbx
   push rax
@@ -118,6 +123,7 @@ _operator_modulus:
   pop rcx
   mov rax, [rsp+8]
   mov rbx, [rsp]
+  add rsp, 16
   cqo
   idiv rbx
   push rdx
@@ -127,5 +133,7 @@ _operator_assignment:
   pop rcx
   mov rax, [rsp+8]
   mov rbx, [rsp]
+  add rsp, 16
   mov [rax], rbx
+  push [rax]
   jmp rcx
