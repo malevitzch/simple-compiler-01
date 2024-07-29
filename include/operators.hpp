@@ -24,7 +24,8 @@ struct Operator
   OperatorType type;
   int precedence;
   Associativity associativity;
-  Operator(string name, string symbol, OperatorType type, int precedence, Associativity associativity);
+  string asm_call_name;
+  Operator(string name, string symbol, OperatorType type, int precedence, Associativity associativity, string asm_call_name);
   Operator() = default;
 };
 
