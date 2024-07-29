@@ -83,44 +83,49 @@ _negative:
   jmp _main_loop
 
 _operator_addition:
+  pop rcx
   mov rax, [rsp+8]
-  mov rbx, [rsp+16]
+  mov rbx, [rsp]
   add rax, rbx
   push rax
-  ret
+  jmp rcx
 
 _operator_subtraction:
+  pop rcx
   mov rax, [rsp+8]
-  mov rbx, [rsp+16]
-  sub rbx, rax
-  push rbx
-  ret
+  mov rbx, [rsp]
+  sub rax, rbx
+  push rax
+  jmp rcx
 
 _operator_multiplication:
-  mov rax, [rsp+8]
-  mov rbx, [rsp+16]
-  imul rbx
-  push rax
-  ret
+  pop rcx
+  mov rax, [rsp]
+  mov rbx, [rsp+8]
+  imul rax, rbx
+  jmp rcx
 
 _operator_division:
-  mov rax, [rsp+16]
-  mov rbx, [rsp+8]
+  pop rcx
+  mov rax, [rsp+8]
+  mov rbx, [rsp]
   cqo
   idiv rbx
   push rax
-  ret
+  jmp rcx
 
 _operator_modulus:
-  mov rax, [rsp+16]
-  mov rbx, [rsp+8]
+  pop rcx
+  mov rax, [rsp+8]
+  mov rbx, [rsp+]
   cqo
   idiv rbx
   push rdx
-  ret
+  jmp rcx
 
 _operator_assignment:
-  mov rax, [rsp+16]
-  mov rbx, [rsp+8]
+  pop rcx
+  mov rax, [rsp+8]
+  mov rbx, [rsp]
   mov [rax], rbx
-  ret
+  jmp rcx
