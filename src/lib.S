@@ -117,7 +117,7 @@ _operator_division:
 _operator_modulus:
   pop rcx
   mov rax, [rsp+8]
-  mov rbx, [rsp+]
+  mov rbx, [rsp]
   cqo
   idiv rbx
   push rdx
