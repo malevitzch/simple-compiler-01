@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "updated_compiler.hpp"
+#include "compiler.hpp"
 #include "lexer.hpp"
 #include "shunting_yard.hpp"
 void shunting_test()
