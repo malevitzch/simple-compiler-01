@@ -14,6 +14,7 @@ global _operator_multiplication
 global _operator_division
 global _operator_modulus
 global _operator_assignment
+global _operator_negation
 
 %macro add_char 1
   mov qword [chvar], %1
@@ -136,4 +137,12 @@ _operator_assignment:
   add rsp, 16
   mov [rax], rbx
   push [rax]
+  jmp rcx
+
+_operator_negation:
+  pop rcx
+  mov rax, [rsp]
+  imul rax, -1
+  add rsp, 8
+  push rax
   jmp rcx
