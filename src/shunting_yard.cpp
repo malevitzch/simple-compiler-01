@@ -19,7 +19,7 @@ void prefix_unary(std::vector<string>& expression)
     //we ignore parentheses
     if(token == "(" || token == ")") continue;
     //TODO: syntax is not being checked here, double binary operators might get prefixed which is not desired
-    if(is_operator(token))
+    if(is_operator(token)) 
     {
       //an unary operator is either the first token of an expression or directly follows another operator (excluding brackets of course)
       if(last_null_or_operator) token = "u" + token;

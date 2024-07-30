@@ -136,7 +136,7 @@ _operator_assignment:
   mov rbx, [rsp]
   add rsp, 16
   mov [rax], rbx
-  push [rax]
+  push qword [rax]
   jmp rcx
 
 _operator_negation:
