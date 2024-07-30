@@ -1,41 +1,23 @@
 #pragma once
-#include <iostream>
-#include <map>
-#include <vector>
-
-#include "parser.hpp"
-
-using std::string;
-using std::ostream;
-
+#include "shunting_yard.hpp"
 class Compiler
 {
 private:
-  std::vector<CompilerOperation*> operations;
-  ostream& target;
   int stack_ptr = 0;
-  std::map<string, int> variable_table;
-  bool is_variable_registered(string name) const;
-  bool register_variable(string name, int value);
-  bool process_operation(CompilerOperation* operation);
-  
-public:
-  Compiler() = delete;
-  Compiler(ostream& target);
-  bool process_all();
-  void add_operation(CompilerOperation* operation); //potentially might be a bool but the general idea is that an operation should be vaild by default
-
-  bool declare_variable(string name, int value);
-  bool assign_to_variable(string name, int value);
-  bool print_variable(string name) const;
-  ~Compiler();
-};
-//TODO: eventually, those will need to be moved to a member class inside of Compiler itself. Not yet though
-namespace asm_getters
-{
-  string create_variable(int value);
-  string modify_variable(int value, int target_ptr, int stack_ptr);
-  string print_variable(int target_ptr, int stack_ptr);
+  std::map<string, int> variables; 
+  void register_variable(string name);
+  [[nodiscard]]
+  string declare(string name);
+  [[nodiscard]]
+  string dereference(string element, int index);
+  [[nodiscard]]
   string base_template();
+  [[nodiscard]]
   string end_program();
-}
+public:
+  Compiler() = default;
+  [[nodiscard]]
+  string expression_eval(std::vector<string> expression);
+  void compile(string input_filename, string output_filename);
+};
+

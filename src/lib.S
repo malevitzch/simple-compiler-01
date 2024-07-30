@@ -14,6 +14,7 @@ global _operator_multiplication
 global _operator_division
 global _operator_modulus
 global _operator_assignment
+global _operator_negation
 
 %macro add_char 1
   mov qword [chvar], %1
@@ -83,44 +84,65 @@ _negative:
   jmp _main_loop
 
 _operator_addition:
+  pop rcx
   mov rax, [rsp+8]
-  mov rbx, [rsp+16]
+  mov rbx, [rsp]
+  add rsp, 16
   add rax, rbx
   push rax
-  ret
+  jmp rcx
 
 _operator_subtraction:
+  pop rcx
   mov rax, [rsp+8]
-  mov rbx, [rsp+16]
-  sub rbx, rax
-  push rbx
-  ret
+  mov rbx, [rsp]
+  add rsp, 16
+  sub rax, rbx
+  push rax
+  jmp rcx
 
 _operator_multiplication:
-  mov rax, [rsp+8]
-  mov rbx, [rsp+16]
-  imul rbx
+  pop rcx
+  mov rax, [rsp]
+  mov rbx, [rsp+8]
+  add rsp, 16
+  imul rax, rbx
   push rax
-  ret
+  jmp rcx
 
 _operator_division:
-  mov rax, [rsp+16]
-  mov rbx, [rsp+8]
+  pop rcx
+  mov rax, [rsp+8]
+  mov rbx, [rsp]
+  add rsp, 16
   cqo
   idiv rbx
   push rax
-  ret
+  jmp rcx
 
 _operator_modulus:
-  mov rax, [rsp+16]
-  mov rbx, [rsp+8]
+  pop rcx
+  mov rax, [rsp+8]
+  mov rbx, [rsp]
+  add rsp, 16
   cqo
   idiv rbx
   push rdx
-  ret
+  jmp rcx
 
 _operator_assignment:
-  mov rax, [rsp+16]
-  mov rbx, [rsp+8]
+  pop rcx
+  mov rax, [rsp+8]
+  mov rbx, [rsp]
+  add rsp, 16
   mov [rax], rbx
-  ret
+  push qword [rax]
+  jmp rcx
+
+_operator_negation:
+  pop rcx
+  mov rax, [rsp]
+  imul rax, -1
+  add rsp, 8
+  push rax
+  jmp rcx
