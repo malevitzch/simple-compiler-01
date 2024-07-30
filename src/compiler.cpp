@@ -1,4 +1,4 @@
-#include "updated_compiler.hpp"
+#include "compiler.hpp"
 #include "operators.hpp"
 #include "shunting_yard.hpp"
 #include "stringops.hpp"
@@ -21,7 +21,7 @@ void Compiler::register_variable(string name)
 string Compiler::declare(string name)
 {
   register_variable(name);
-  return "\tpush 0\n";
+  return "\tsub rsp, 8\n";
 }
 string Compiler::dereference(string element, int index)
 {
