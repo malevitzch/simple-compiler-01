@@ -1,12 +1,13 @@
+#include <stdexcept>
+#include <stack>
+#include <cassert>
+#include <fstream>
+
 #include "compiler.hpp"
 #include "operators.hpp"
 #include "shunting_yard.hpp"
 #include "stringops.hpp"
 #include "lexer.hpp"
-#include <stdexcept>
-#include <stack>
-#include <cassert>
-#include <fstream>
 
 void Compiler::register_variable(string name)
 {

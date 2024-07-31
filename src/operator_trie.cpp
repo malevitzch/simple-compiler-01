@@ -1,6 +1,7 @@
-#include "operator_trie.hpp"
 #include <algorithm>
 #include <set>
+
+#include "operator_trie.hpp"
 
 int Trie::get_index(char target)
 {

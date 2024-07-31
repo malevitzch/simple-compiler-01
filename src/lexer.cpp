@@ -1,9 +1,10 @@
+#include <fstream>
+#include <set>
+
 #include "lexer.hpp"
 #include "operator_trie.hpp"
 #include "operators.hpp"
-#include <iostream>
-#include <fstream>
-#include <set>
+
 namespace char_tests
 {
 

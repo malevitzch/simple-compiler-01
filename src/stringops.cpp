@@ -1,5 +1,7 @@
-#include "stringops.hpp"
 #include <algorithm>
+
+#include "stringops.hpp"
+
 namespace auxiliary
 {
   bool valid_name_character(char ch)
