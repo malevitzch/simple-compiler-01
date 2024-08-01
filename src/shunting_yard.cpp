@@ -4,7 +4,7 @@
 
 #include "operators.hpp"
 #include "shunting_yard.hpp"
-
+#include "compiler.hpp"
 bool is_operator(string token)
 {
   std::vector<string> operators = get_operator_symbols();
@@ -32,7 +32,7 @@ void prefix_unary(std::vector<string>& expression)
   }
 }
 
-std::vector<string> infix_to_postfix(std::vector<string> expression)
+std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& compiler)
 {
   prefix_unary(expression);
   
@@ -50,7 +50,7 @@ std::vector<string> infix_to_postfix(std::vector<string> expression)
       {
         if(operator_stack.empty())
         {
-          throw std::runtime_error("Mismatched parentheses");
+          compiler.log("Mismatched parentheses");
         }
         string cur = operator_stack.top();
         operator_stack.pop();
@@ -78,7 +78,7 @@ std::vector<string> infix_to_postfix(std::vector<string> expression)
   }
   while(!operator_stack.empty())
   {
-    if(operator_stack.top() == "(") throw std::runtime_error("Mismatched parentheses");
+    if(operator_stack.top() == "(") compiler.log("Mismatched parentheses");
     postfix_expression.push_back(operator_stack.top());
     operator_stack.pop();
   }

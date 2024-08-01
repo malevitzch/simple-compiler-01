@@ -58,7 +58,7 @@ string Compiler::end_program()
 string Compiler::expression_eval(std::vector<string> expression)
 {
   std::map<string, Operator> operator_map = get_operator_map();
-  std::vector<string> postfix_expr = infix_to_postfix(expression);
+  std::vector<string> postfix_expr = infix_to_postfix(expression, *this);
   string result = "";
   std::stack<string> value_stack;
   for(string token : postfix_expr)

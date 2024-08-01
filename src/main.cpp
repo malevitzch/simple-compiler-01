@@ -1,16 +1,7 @@
 #include <iostream>
-#include <fstream>
 #include "compiler.hpp"
 #include "lexer.hpp"
 #include "shunting_yard.hpp"
-void shunting_test()
-{
-  std::vector<string> expr = {"x1", "=", "y1", "*", "(", "-", "a", "+", "b", ")"};
-  for(string s : infix_to_postfix(expr))
-  {
-    std::cout<<s<<" ";
-  }
-}
 int main()
 {
   Compiler compiler;
