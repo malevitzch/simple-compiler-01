@@ -9,6 +9,7 @@ class Compiler
 {
 private:
   int stack_ptr = 0;
+  int cur_statement_index = 0;
   std::map<string, int> variables;
   std::vector<string> error_log;
 

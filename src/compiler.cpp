@@ -1,8 +1,8 @@
-#include <stdexcept>
 #include <stack>
 #include <cassert>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 #include "compiler.hpp"
 #include "operators.hpp"
@@ -12,7 +12,7 @@
 
 void Compiler::log(string message)
 {
-  error_log.push_back(message);
+  error_log.push_back("Statement " + std::to_string(cur_statement_index) + ": " + message);
 }
 
 void Compiler::register_variable(string name)
@@ -21,7 +21,7 @@ void Compiler::register_variable(string name)
   if(variables.find(name) != variables.end())
   {
     //TODO:: error log
-    throw std::runtime_error("Variable \"" + name + "\" is already registered");
+    log("Variable \"" + name + "\" is already registered");
   }
   variables[name] = ++stack_ptr;
 }
@@ -86,7 +86,11 @@ string Compiler::expression_eval(std::vector<string> expression)
       Operator op = operator_map[token];
       if(op.type == OperatorType::Unary)
       {
-        if(value_stack.size() < 1) throw std::runtime_error("Not enough operands for unary operator");
+        if(value_stack.size() < 1) 
+        {
+          log("Not enough operands for unary operator");
+          return "";
+        }
         string op1 = value_stack.top();
         value_stack.pop();
 
@@ -98,7 +102,11 @@ string Compiler::expression_eval(std::vector<string> expression)
       {
         //handle situation where there are not enough operands on the stack
         //TODO: store info in compile logs and potentially halt compilation instead?
-        if(value_stack.size() < 2) throw std::runtime_error("Not enough operands for binary operator");
+        if(value_stack.size() < 2) 
+        {
+          log("Not enough operands for binary operator");
+          return "";
+        }
         string op2 = value_stack.top();
         value_stack.pop();
         string op1 = value_stack.top();
@@ -106,7 +114,11 @@ string Compiler::expression_eval(std::vector<string> expression)
         //TODO: come up with a much better way of processing derefs for operators, perhaps some sort of lambda that classifies the needs to deref?
         if(op.symbol == "=")
         {
-          if(op1 == "#") throw std::runtime_error("Cannot assign to an rvalue");
+          if(op1 == "#")
+          {
+            log("Cannot assign to an rvalue");
+            return "";
+          }
           if(op2 != "#") result += dereference(op2, 1);
         }
         else
@@ -122,7 +134,11 @@ string Compiler::expression_eval(std::vector<string> expression)
       }
     }
   }
-  if(value_stack.size() != 1) throw std::runtime_error("Expression does not converge to one value");
+  if(value_stack.size() != 1)
+  {
+    log("Expression does not evaluate to a single value");
+    return "";
+  }
   return result;
 }
 
@@ -133,22 +149,21 @@ void Compiler::compile(string input_filename, string output_filename)
   buffer << base_template();
   for(std::vector<string>& statement : statements)
   {
+    cur_statement_index++;
     if(statement.size() == 0) continue;
     if(statement[0] == "decl")
     {
       if(statement.size() < 2)
       {
-        //TODO: error
-        throw std::runtime_error("expected variable name after 'decl'");
+        log("expected variable name after 'decl'");
       }
       if(!is_valid_variable_name(statement[1]))
       {
-        throw std::runtime_error("Invalid variable name: \"" + statement[1] + "\"");
+        log("Invalid variable name: \"" + statement[1] + "\"");
       }
       buffer << declare(statement[1]);
       if(statement.size() > 2)
       {
-        //TODO: make sure this works
         std::vector<string> expr(statement.begin()+1, statement.end());
         buffer << expression_eval(expr);
       }
@@ -158,15 +173,13 @@ void Compiler::compile(string input_filename, string output_filename)
       //TODO: make print use expression eval
       if(statement.size() < 2)
       {
-        //TODO: error
-        throw std::runtime_error("expected variable name after 'decl'");
+        log("expected variable name after 'decl'");
       }
       if(!is_valid_variable_name(statement[1]))
       {
-         throw std::runtime_error("invalid variable name \"" + statement[1] + "\""); 
+        log("invalid variable name \"" + statement[1] + "\"");
       }
-      //TODO: print here
-       buffer << "\tpush qword [rbp-" + std::to_string(8*variables[statement[1]]) + "]\n\tcall _print\n\tadd rsp, 8\n";
+      buffer << "\tpush qword [rbp-" + std::to_string(8*variables[statement[1]]) + "]\n\tcall _print\n\tadd rsp, 8\n";
     }
     else
     {
@@ -174,6 +187,15 @@ void Compiler::compile(string input_filename, string output_filename)
     }
   }
   buffer << end_program();
-  std::ofstream output(output_filename);
-  output << buffer.str();
+  if(error_log.empty())
+  {
+    std::ofstream output(output_filename);
+    output << buffer.str();
+  }
+  else
+  {
+    //TODO: make this use a diagnostic output ostream as a parameter for the compiler (basically you can instantiate compiler with any ostream you want and everything gets written there)
+    std::cout<<"Compilation failed due to the following errors:\n";
+    for(string& error : error_log) std::cout<<error<<"\n";
+  }
 }
