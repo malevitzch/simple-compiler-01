@@ -2,6 +2,7 @@
 #include <stack>
 #include <cassert>
 #include <fstream>
+#include <sstream>
 
 #include "compiler.hpp"
 #include "operators.hpp"
@@ -128,8 +129,8 @@ string Compiler::expression_eval(std::vector<string> expression)
 void Compiler::compile(string input_filename, string output_filename)
 {
   std::vector<std::vector<string>> statements = tokenize_file(input_filename);
-  std::ofstream output(output_filename);
-  output << base_template();
+  std::stringstream buffer;
+  buffer << base_template();
   for(std::vector<string>& statement : statements)
   {
     if(statement.size() == 0) continue;
@@ -144,12 +145,12 @@ void Compiler::compile(string input_filename, string output_filename)
       {
         throw std::runtime_error("Invalid variable name: \"" + statement[1] + "\"");
       }
-      output << declare(statement[1]);
+      buffer << declare(statement[1]);
       if(statement.size() > 2)
       {
         //TODO: make sure this works
         std::vector<string> expr(statement.begin()+1, statement.end());
-        output << expression_eval(expr);
+        buffer << expression_eval(expr);
       }
     }
     else if(statement[0] == "print")
@@ -165,12 +166,14 @@ void Compiler::compile(string input_filename, string output_filename)
          throw std::runtime_error("invalid variable name \"" + statement[1] + "\""); 
       }
       //TODO: print here
-       output << "\tpush qword [rbp-" + std::to_string(8*variables[statement[1]]) + "]\n\tcall _print\n\tadd rsp, 8\n";
+       buffer << "\tpush qword [rbp-" + std::to_string(8*variables[statement[1]]) + "]\n\tcall _print\n\tadd rsp, 8\n";
     }
     else
     {
-      output << expression_eval(statement);
+      buffer << expression_eval(statement);
     }
   }
-  output << end_program();
+  buffer << end_program();
+  std::ofstream output(output_filename);
+  output << buffer.str();
 }
