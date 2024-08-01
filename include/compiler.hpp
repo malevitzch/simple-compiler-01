@@ -9,8 +9,13 @@ class Compiler
 {
 private:
   int stack_ptr = 0;
-  std::map<string, int> variables; 
+  std::map<string, int> variables;
+  std::vector<string> error_log;
+
+  void log(string message);
+
   void register_variable(string name);
+
   [[nodiscard]]
   string declare(string name);
   [[nodiscard]]
@@ -19,6 +24,7 @@ private:
   string base_template();
   [[nodiscard]]
   string end_program();
+
 public:
   Compiler() = default;
   [[nodiscard]]

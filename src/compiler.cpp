@@ -9,6 +9,11 @@
 #include "stringops.hpp"
 #include "lexer.hpp"
 
+void Compiler::log(string message)
+{
+  error_log.push_back(message);
+}
+
 void Compiler::register_variable(string name)
 {
   //check if variable is not already registered
