@@ -1,5 +1,10 @@
 #pragma once
-#include "shunting_yard.hpp"
+#include <string>
+#include <vector>
+#include <map>
+
+using std::string;
+
 class Compiler
 {
 private:
