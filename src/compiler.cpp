@@ -142,6 +142,15 @@ string Compiler::expression_eval(std::vector<string> expression)
 void Compiler::compile(string input_filename, string output_filename)
 {
   std::vector<std::vector<string>> statements = tokenize_file(input_filename, *this);
+
+  if(!error_log.empty())
+  {
+    //TODO: ostream as parameter
+    std::cout<<"Tokenization failed due to the following errors:\n";
+    for(string& error : error_log) std::cout<<error<<"\n";
+    return;
+  }
+
   std::stringstream buffer;
   buffer << base_template();
   for(std::vector<string>& statement : statements)
