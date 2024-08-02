@@ -4,6 +4,7 @@
 #include "lexer.hpp"
 #include "operator_trie.hpp"
 #include "operators.hpp"
+#include "compiler.hpp"
 
 namespace char_tests
 {
@@ -48,7 +49,7 @@ CharType get_type(char ch)
   return CharType::None;
 }
 
-std::vector<std::vector<string>> tokenize_file(string filename)
+std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compiler)
 {
   using namespace char_tests;
   Trie operator_trie(get_operator_symbols());
@@ -90,12 +91,13 @@ std::vector<std::vector<string>> tokenize_file(string filename)
     cur_token = "";
     cur_type = CharType::None;
   };
-  
+  compiler.cur_statement_index = 1; 
   //Lambda that finishes the current statement and adds it to the statements vector
-  auto finish_statement = [&finish_token, &statements, &cur_statement]()
+  auto finish_statement = [&finish_token, &statements, &cur_statement, &compiler]()
   { 
     finish_token();
     if(cur_statement.empty()) return;
+    compiler.cur_statement_index++;
     statements.push_back(cur_statement);
     cur_statement.clear();
   };
@@ -160,7 +162,7 @@ std::vector<std::vector<string>> tokenize_file(string filename)
         //handle unknown character here
         string s = "";
         s += cur_char;
-        throw std::runtime_error("Unknown character \"" + s + "\"\n");
+        compiler.log("Unknown character \"" + s + "\"\n");
         break;
     }
   }
@@ -169,8 +171,8 @@ std::vector<std::vector<string>> tokenize_file(string filename)
   {
     //Handle syntax error. Basically last line has no semicolon
     //TODO: this should not be an exception, rather a build message that halts later compilation steps 
-    throw std::runtime_error("No semicolon at the end of last statement");
+    compiler.log("No semicolon at the end of last statement");
   }
-
+  compiler.cur_statement_index = 0;
   return statements;
 }

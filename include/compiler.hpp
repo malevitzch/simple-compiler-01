@@ -31,6 +31,8 @@ public:
   [[nodiscard]]
   string expression_eval(std::vector<string> expression);
   void compile(string input_filename, string output_filename);
+
+  friend std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compiler);
   friend std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& compiler);
 };
 

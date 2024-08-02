@@ -141,7 +141,7 @@ string Compiler::expression_eval(std::vector<string> expression)
 
 void Compiler::compile(string input_filename, string output_filename)
 {
-  std::vector<std::vector<string>> statements = tokenize_file(input_filename);
+  std::vector<std::vector<string>> statements = tokenize_file(input_filename, *this);
   std::stringstream buffer;
   buffer << base_template();
   for(std::vector<string>& statement : statements)

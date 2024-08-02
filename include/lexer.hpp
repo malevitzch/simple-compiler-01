@@ -4,6 +4,9 @@
 
 using std::string;
 
+//forward declaration
+class Compiler;
+
 enum class CharType
 {
   Whitespace, //whitespace (anything that satisfies isspace(ch))
@@ -22,4 +25,4 @@ namespace char_tests
 }
 CharType get_type(char ch);
 
-std::vector<std::vector<string>> tokenize_file(string filename); 
+std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compiler); 
