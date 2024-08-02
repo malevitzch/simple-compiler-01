@@ -52,9 +52,6 @@ string Compiler::end_program()
   return "\tmov rax, 60\n\tmov rdi, 1\n\tsyscall\n";
 }
 
-
-//TODO: implement compiler error log so that we don't throw exceptions
-
 string Compiler::expression_eval(std::vector<string> expression)
 {
   std::map<string, Operator> operator_map = get_operator_map();
