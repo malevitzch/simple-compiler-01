@@ -20,6 +20,6 @@ std::map<string, Operator> get_operator_map()
   operator_map["*"] = Operator("Multiplication", "*", OperatorType::Binary, 1, Associativity::Left, "_operator_multiplication");
   operator_map["/"] = Operator("Division", "/", OperatorType::Binary, 1, Associativity::Left, "_operator_division");
   operator_map["%"] = Operator("Modulus", "%", OperatorType::Binary, 1, Associativity::Left, "_operator_modulus");
-  operator_map["u-"] = Operator("Negation", "-", OperatorType::Unary, 0, Associativity::Right, "_operator_negation"); //TODO: IMPLEMENT IN ASSEMBLY
+  operator_map["u-"] = Operator("Negation", "-", OperatorType::Unary, 0, Associativity::Right, "_operator_negation");
   return operator_map;
 }
