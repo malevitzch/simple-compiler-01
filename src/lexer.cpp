@@ -170,7 +170,6 @@ std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compil
   if(!cur_statement.empty())
   {
     //Handle syntax error. Basically last line has no semicolon
-    //TODO: this should not be an exception, rather a build message that halts later compilation steps 
     compiler.log("No semicolon at the end of last statement");
   }
   compiler.cur_statement_index = 0;
