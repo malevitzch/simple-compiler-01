@@ -56,10 +56,11 @@ std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compil
   std::vector<std::vector<string>> statements;
   std::fstream file_stream(filename);
   
-  //Throw an exception in case the input file does not exist (This is preferred behavior, if user does not want the program to crash then they should check validity of filenames
+  //in case of invalid filename, log it to compiler error log and halt compilation
   if(!file_stream.good())
   {
-    throw std::ios_base::failure("File named \"" + filename + "\" does not exist");
+    compiler.log("File \"" + filename + "\" does not exist");
+    return {};
   }
 
   //Prevent the file stream from skipping whitespace
