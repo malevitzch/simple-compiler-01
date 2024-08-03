@@ -6,4 +6,5 @@ The initial goal of this project is to create a simple, not necessarily turing-c
 - [expr] evaluates the expression, usually used with = operator so that the expression does anything
 TODO:
 - provide a reasonable and convenient command to compile files
-- implement control flow
+- change the way errors are handled (to a polymorphic error class rather than a vector of strings, at the very least)
+- implement expression verification (stuff like "x = 2 3 +" still compiles because there the shunting yard algorithm does not check for most expression ordering errors)
