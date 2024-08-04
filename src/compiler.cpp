@@ -69,7 +69,7 @@ string Compiler::expression_eval(std::vector<string> expression)
     {
       if(variables.find(token) == variables.end())
       {
-        //exception here, variable doesn't exist  
+        //TODO: dependency injection error logging
       }
       value_stack.push(token);
       result += "\tmov rax, rbp\n\tsub rax, " + std::to_string(8*variables[token]) + "\n\tpush rax\n";
@@ -78,7 +78,7 @@ string Compiler::expression_eval(std::vector<string> expression)
     {
       if(operator_map.find(token) == operator_map.end())
       {
-        //exception here, unknown token
+        //TODO: dependency injection error logging
       }
       Operator op = operator_map.at(token);
       if(op.type == OperatorType::Unary)
@@ -98,7 +98,6 @@ string Compiler::expression_eval(std::vector<string> expression)
       else
       {
         //handle situation where there are not enough operands on the stack
-        //TODO: store info in compile logs and potentially halt compilation instead?
         if(value_stack.size() < 2) 
         {
           log("Not enough operands for binary operator");
