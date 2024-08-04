@@ -197,6 +197,7 @@ void Compiler::compile(string input_filename, string output_filename)
   {
     std::ofstream output(output_filename);
     output << buffer.str();
+    std::cout << "Compilation successful, the contents have been written to \"" + output_filename + "\"\n"; 
   }
   else
   {
