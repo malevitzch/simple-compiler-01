@@ -8,3 +8,4 @@ TODO:
 - provide a reasonable and convenient command to compile files
 - change the way errors are handled (to a polymorphic error class rather than a vector of strings, at the very least)
 - implement expression verification (stuff like "x = 2 3 +" still compiles because there the shunting yard algorithm does not check for most expression ordering errors)
+- Add a lot more documentation and clean up code
