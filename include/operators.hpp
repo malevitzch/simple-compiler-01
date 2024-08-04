@@ -29,4 +29,4 @@ struct Operator
   Operator() = default;
 };
 
-std::map<string, Operator> get_operator_map();
+const std::map<string, Operator>& get_operator_map();

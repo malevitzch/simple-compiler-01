@@ -54,7 +54,7 @@ string Compiler::end_program()
 
 string Compiler::expression_eval(std::vector<string> expression)
 {
-  std::map<string, Operator> operator_map = get_operator_map();
+  const std::map<string, Operator>& operator_map = get_operator_map();
   std::vector<string> postfix_expr = infix_to_postfix(expression, *this);
   string result = "";
   std::stack<string> value_stack;
@@ -69,7 +69,7 @@ string Compiler::expression_eval(std::vector<string> expression)
     {
       if(variables.find(token) == variables.end())
       {
-        //exception here, variable does not exist
+        //exception here, variable doesn't exist  
       }
       value_stack.push(token);
       result += "\tmov rax, rbp\n\tsub rax, " + std::to_string(8*variables[token]) + "\n\tpush rax\n";
@@ -80,7 +80,7 @@ string Compiler::expression_eval(std::vector<string> expression)
       {
         //exception here, unknown token
       }
-      Operator op = operator_map[token];
+      Operator op = operator_map.at(token);
       if(op.type == OperatorType::Unary)
       {
         if(value_stack.size() < 1) 

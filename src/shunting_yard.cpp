@@ -39,7 +39,7 @@ std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& c
   std::stack<string> operator_stack;
 
   //operator map contains operators already prefixed in case of unary oness
-  std::map<string, Operator> operator_map = get_operator_map();
+  const std::map<string, Operator>& operator_map = get_operator_map();
 
   for(string token : expression)
   {
@@ -61,8 +61,8 @@ std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& c
     {
       while(!operator_stack.empty() && operator_stack.top() != "(")
       {
-        Operator o1 = operator_map[token];
-        Operator o2 = operator_map[operator_stack.top()];
+        Operator o1 = operator_map.at(token);
+        Operator o2 = operator_map.at(operator_stack.top());
         if(o2.precedence < o1.precedence || (o1.precedence == o2.precedence && o1.associativity == Associativity::Left))
         {
           postfix_expression.push_back(operator_stack.top());
