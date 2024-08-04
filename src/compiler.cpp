@@ -12,7 +12,7 @@
 
 void Compiler::log(string message)
 {
-  error_log.push_back("Statement " + std::to_string(cur_statement_index) + ": " + message);
+  error_log.push_back("In statement " + std::to_string(cur_statement_index) + ": " + message);
 }
 
 void Compiler::register_variable(string name)
