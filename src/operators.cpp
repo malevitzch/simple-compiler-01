@@ -1,11 +1,12 @@
 #include "operators.hpp"
 
-std::vector<string> get_operator_symbols()
+const std::vector<string>& get_operator_symbols()
 {
-  return 
+  static const std::vector<string> symbols = 
   {
     "+", "-", "*", "/", "=", "+=", "-=", "*=", "/=", "%"
   };
+  return symbols;
 }
 
 Operator::Operator(string name, string symbol, OperatorType type, int precedence, Associativity associativity, string asm_call_name) : name(name), symbol(symbol), type(type), precedence(precedence), associativity(associativity), asm_call_name(asm_call_name) {}

@@ -5,7 +5,7 @@
 
 using std::string;
 
-std::vector<string> get_operator_symbols();
+const std::vector<string>& get_operator_symbols();
 
 enum class OperatorType
 {

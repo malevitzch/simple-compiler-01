@@ -6,7 +6,7 @@
 #include "compiler.hpp"
 bool is_operator(string token)
 {
-  std::vector<string> operators = get_operator_symbols();
+  const std::vector<string>& operators = get_operator_symbols();
   return std::find(operators.begin(), operators.end(), token) != operators.end();
 }
 
