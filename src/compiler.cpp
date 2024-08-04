@@ -2,7 +2,6 @@
 #include <cassert>
 #include <fstream>
 #include <sstream>
-#include <iostream>
 
 #include "compiler.hpp"
 #include "operators.hpp"
@@ -24,11 +23,13 @@ void Compiler::register_variable(string name)
   }
   variables[name] = ++stack_ptr;
 }
+
 string Compiler::declare(string name)
 {
   register_variable(name);
   return "\tsub rsp, 8\n";
 }
+
 string Compiler::dereference(string element, int index)
 {
   if(variables.find(element) == variables.end()) {} //error
@@ -46,10 +47,13 @@ string Compiler::base_template()
   base_temp += "global _start\n\n_start:\n\tpush rbp\n\tmov rbp, rsp\n";
   return base_temp;
 }
+
 string Compiler::end_program()
 {
   return "\tmov rax, 60\n\tmov rdi, 1\n\tsyscall\n";
 }
+
+Compiler::Compiler(std::ostream& diagnostic_stream) : diagnostic_stream(diagnostic_stream) {}
 
 string Compiler::expression_eval(std::vector<string> expression)
 {
@@ -143,9 +147,8 @@ void Compiler::compile(string input_filename, string output_filename)
 
   if(!error_log.empty())
   {
-    //TODO: ostream as parameter
-    std::cout<<"Tokenization failed due to the following errors:\n";
-    for(string& error : error_log) std::cout<<error<<"\n";
+    diagnostic_stream << "Tokenization failed due to the following errors:\n";
+    for(string& error : error_log) diagnostic_stream<<error<<"\n";
     return;
   }
 
@@ -195,12 +198,12 @@ void Compiler::compile(string input_filename, string output_filename)
   {
     std::ofstream output(output_filename);
     output << buffer.str();
-    std::cout << "Compilation successful, the contents have been written to \"" + output_filename + "\"\n"; 
+    diagnostic_stream << "Compilation successful, the contents have been written to \"" + output_filename + "\"\n"; 
   }
   else
   {
     //TODO: make this use a diagnostic output ostream as a parameter for the compiler (basically you can instantiate compiler with any ostream you want and everything gets written there)
-    std::cout<<"Compilation failed due to the following errors:\n";
-    for(string& error : error_log) std::cout<<error<<"\n";
+    diagnostic_stream << "Compilation failed due to the following errors:\n";
+    for(string& error : error_log) diagnostic_stream << error<<"\n";
   }
 }
