@@ -20,7 +20,6 @@ void Compiler::register_variable(string name)
   //check if variable is not already registered
   if(variables.find(name) != variables.end())
   {
-    //TODO:: error log
     log("Variable \"" + name + "\" is already registered");
   }
   variables[name] = ++stack_ptr;
