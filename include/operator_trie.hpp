@@ -42,7 +42,11 @@ public:
 
   //a function that attempts to greedily split a string into words from trie
   std::vector<string> split_string(string str);
+
+  //adds a word to trie
   void insert(string word);
+
+  //checks whether the input word is contained in the trie
   bool contains(string word);
 };
 //TODO: if we want to support deletion, we need TrieNode to keep usecount and delete nodes by calling shared_ptr<TrieNode>.reset()
