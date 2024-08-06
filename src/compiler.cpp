@@ -72,7 +72,7 @@ string Compiler::expression_eval(std::vector<string> expression)
     {
       if(variables.find(token) == variables.end())
       {
-        //TODO: dependency injection error logging
+        log("Invalid token \"" + token + "\""); 
       }
       value_stack.push(token);
       result += "\tmov rax, rbp\n\tsub rax, " + std::to_string(8*variables[token]) + "\n\tpush rax\n";
@@ -81,7 +81,7 @@ string Compiler::expression_eval(std::vector<string> expression)
     {
       if(operator_map.find(token) == operator_map.end())
       {
-        //TODO: dependency injection error logging
+        log("Invalid token \"" + token + "\"");
       }
       Operator op = operator_map.at(token);
       if(op.type == OperatorType::Unary)
