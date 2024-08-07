@@ -20,7 +20,9 @@ private:
   void log(string message);
 
   void register_variable(string name);
-
+  
+  [[nodiscard]]
+  string push_stack(string name);
   [[nodiscard]]
   string declare(string name);
   [[nodiscard]]

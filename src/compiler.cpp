@@ -24,6 +24,12 @@ void Compiler::register_variable(string name)
   variables[name] = ++stack_ptr;
 }
 
+//disclaimer: this function might throw an error if name is invalid
+string Compiler::push_stack(string name)
+{
+  return "\tmov rax, rbp\n\tsub rax, " + std::to_string(8*variables.at(name)) + "\n\tpush rax\n";
+}
+
 string Compiler::declare(string name)
 {
   register_variable(name);
@@ -77,7 +83,7 @@ string Compiler::expression_eval(std::vector<string> expression)
       }
       value_stack.push(token);
       //TODO: make that a function
-      result += "\tmov rax, rbp\n\tsub rax, " + std::to_string(8*variables[token]) + "\n\tpush rax\n";
+      result += push_stack(token); 
     }
     else
     {
