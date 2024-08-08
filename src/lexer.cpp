@@ -9,7 +9,7 @@
 
 namespace char_tests
 {
-
+  //singleton characters are ones that only ever appear
   bool is_singleton(char ch)
   {
     static std::unordered_set<char> singletons = 
@@ -21,7 +21,7 @@ namespace char_tests
 
   bool is_operator(char ch)
   {
-    std::set<char> operators = 
+    static std::unordered_set<char> operators = 
     {
       '+', '-', '*', '/', '>', '<', '=', '!', '%'
     };
