@@ -1,5 +1,6 @@
 #include <fstream>
 #include <set>
+#include <unordered_set>
 
 #include "lexer.hpp"
 #include "operator_trie.hpp"
@@ -11,7 +12,7 @@ namespace char_tests
 
   bool is_singleton(char ch)
   {
-    std::set<char> singletons = 
+    static std::unordered_set<char> singletons = 
     {
       '(', ')', '{', '}', '[', ']', '?', ';', 
     };
