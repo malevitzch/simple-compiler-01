@@ -1,5 +1,4 @@
 #include <fstream>
-#include <set>
 #include <unordered_set>
 
 #include "lexer.hpp"
@@ -9,7 +8,7 @@
 
 namespace char_tests
 {
-  //singleton characters are ones that only ever appear
+  //singleton characters are ones that are never part of a larger token
   bool is_singleton(char ch)
   {
     static std::unordered_set<char> singletons = 

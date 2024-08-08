@@ -38,7 +38,10 @@ string Compiler::declare(string name)
 
 string Compiler::dereference(string element, int index)
 {
-  if(variables.find(element) == variables.end()) {} //error
+  if(variables.find(element) == variables.end()) 
+  {
+    log("Attempt to dereference nonexistent variable \"" + element + "\"");
+  } 
   return "\tmov rax, [rsp+" + std::to_string(index * 8) +"]\n\tmov rax, [rax]\n\tmov [rsp+" + std::to_string(index * 8) + "], rax\n";
 }
 
