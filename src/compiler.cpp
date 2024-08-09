@@ -25,7 +25,7 @@ void Compiler::register_variable(string name)
 }
 
 //disclaimer: this function might throw an error if name is invalid
-string Compiler::push_stack(string name)
+string Compiler::push_variable_to_stack(string name)
 {
   return "\tmov rax, rbp\n\tsub rax, " + std::to_string(8*variables.at(name)) + "\n\tpush rax\n";
 }
@@ -36,11 +36,11 @@ string Compiler::declare(string name)
   return "\tsub rsp, 8\n";
 }
 
-string Compiler::dereference(string element, int index)
+string Compiler::dereference(string variable_name, int index)
 {
-  if(variables.find(element) == variables.end()) 
+  if(variables.find(variable_name) == variables.end()) 
   {
-    log("Attempt to dereference nonexistent variable \"" + element + "\"");
+    log("Attempt to dereference nonexistent variable \"" + variable_name + "\"");
   } 
   return "\tmov rax, [rsp+" + std::to_string(index * 8) +"]\n\tmov rax, [rax]\n\tmov [rsp+" + std::to_string(index * 8) + "], rax\n";
 }
@@ -56,13 +56,6 @@ string Compiler::base_template()
   base_temp += "global _start\n\n_start:\n\tpush rbp\n\tmov rbp, rsp\n";
   return base_temp;
 }
-
-string Compiler::end_program()
-{
-  return "\tmov rax, 60\n\tmov rdi, 1\n\tsyscall\n";
-}
-
-Compiler::Compiler(std::ostream& diagnostic_stream) : diagnostic_stream(diagnostic_stream) {}
 
 string Compiler::expression_eval(std::vector<string> expression)
 {
@@ -85,8 +78,7 @@ string Compiler::expression_eval(std::vector<string> expression)
         continue;
       }
       value_stack.push(token);
-      //TODO: make that a function
-      result += push_stack(token); 
+      result += push_variable_to_stack(token); 
     }
     else
     {
@@ -152,6 +144,13 @@ string Compiler::expression_eval(std::vector<string> expression)
   }
   return result;
 }
+
+string Compiler::end_program()
+{
+  return "\tmov rax, 60\n\tmov rdi, 1\n\tsyscall\n";
+}
+
+Compiler::Compiler(std::ostream& diagnostic_stream) : diagnostic_stream(diagnostic_stream) {}
 
 void Compiler::compile(string input_filename, string output_filename)
 {
