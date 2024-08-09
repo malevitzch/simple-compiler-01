@@ -4,7 +4,7 @@ const std::vector<string>& get_operator_symbols()
 {
   static const std::vector<string> symbols = 
   {
-    "+", "-", "*", "/", "=", "+=", "-=", "*=", "/=", "%"
+    "+", "-", "*", "/", "=", "+=", "-=", "*=", "/=", "%", "%="
   };
   return symbols;
 }
