@@ -52,4 +52,3 @@ public:
   //checks whether the input word is contained in the trie
   bool contains(string word);
 };
-//TODO: if we want to support deletion, we need TrieNode to keep usecount and delete nodes by calling shared_ptr<TrieNode>.reset()
