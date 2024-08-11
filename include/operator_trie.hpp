@@ -46,6 +46,9 @@ public:
   //adds a word to trie
   void insert(string word);
 
+  //adds each string in a vector of strings to trie
+  void insert(std::vector<string> words);
+
   //checks whether the input word is contained in the trie
   bool contains(string word);
 };
