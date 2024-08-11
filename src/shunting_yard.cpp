@@ -10,18 +10,26 @@ bool is_operator(string token)
   return std::find(operators.begin(), operators.end(), token) != operators.end();
 }
 
-void prefix_unary(std::vector<string>& expression)
+void prefix_unary(std::vector<string>& expression, Compiler& compiler)
 {
   bool last_null_or_operator = true;
+  std::map<string, Operator>operator_map = get_operator_map();
   for(string& token : expression)
   {
     //we ignore parentheses
     if(token == "(" || token == ")") continue;
-    //TODO: syntax is not being checked here, double binary operators might get prefixed which is not desired
     if(is_operator(token)) 
     {
       //an unary operator is either the first token of an expression or directly follows another operator (excluding brackets of course)
-      if(last_null_or_operator) token = "u" + token;
+      if(last_null_or_operator) 
+      {
+        if(operator_map.find("u" + token) == operator_map.end())
+        {
+          compiler.log("Operator \"" + token + "\" is being interpreted as unary operator but no such unary operator exists");
+          return;
+        }
+        token = "u" + token;
+      }
       last_null_or_operator = true;
     }
     else
@@ -33,7 +41,7 @@ void prefix_unary(std::vector<string>& expression)
 
 std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& compiler)
 {
-  prefix_unary(expression);
+  prefix_unary(expression, compiler);
   
   std::vector<string> postfix_expression;
   std::stack<string> operator_stack;

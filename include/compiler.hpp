@@ -70,5 +70,6 @@ public:
   //friend declarations for dependency injections
   friend std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compiler);
   friend std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& compiler);
+  friend void prefix_unary(std::vector<string>& expression, Compiler& compiler);
 };
 
