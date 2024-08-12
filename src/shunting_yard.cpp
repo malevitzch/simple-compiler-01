@@ -4,6 +4,7 @@
 #include "operators.hpp"
 #include "shunting_yard.hpp"
 #include "compiler.hpp"
+
 bool is_operator_noprefix(string token)
 {
   const std::vector<string>& operators = get_operator_symbols();
@@ -37,6 +38,19 @@ void prefix_unary(std::vector<string>& expression, Compiler& compiler)
       last_null_or_operator = false;
     }
   }
+}
+
+//TODO: finish the function
+bool is_valid_operator_placement(std::vector<string>& expression)
+{
+  std::vector<string> filtered;
+  //parentheses are completely ignored as they are checked by the shunting yard algorithm
+  //we filter out parentheses
+  for(string& token : expression)
+  {
+    if(token != "(" && token != ")") filtered.push_back(token);
+  }
+  
 }
 
 std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& compiler)
