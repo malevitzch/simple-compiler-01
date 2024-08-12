@@ -9,9 +9,8 @@ using std::string;
 class Compiler;
 
 //function that checks whether or not the token is an operator
-//NOTE: this is for pre_prefixed operators
-//TODO: idk, name this something else so it does not conflict with the is_operator function in operators.hpp (which is in a namespace luckily but the point still stands)
-bool is_operator(string token);
+//NOTE: this is for non-prefixed operators
+bool is_operator_noprefix(string token);
 
 //prefixes all unary operators with "u" in the epxression
 void prefix_unary(std::vector<string>& expression, Compiler& compiler);

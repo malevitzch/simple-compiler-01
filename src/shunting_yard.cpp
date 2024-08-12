@@ -4,7 +4,7 @@
 #include "operators.hpp"
 #include "shunting_yard.hpp"
 #include "compiler.hpp"
-bool is_operator(string token)
+bool is_operator_noprefix(string token)
 {
   const std::vector<string>& operators = get_operator_symbols();
   return std::find(operators.begin(), operators.end(), token) != operators.end();
@@ -18,7 +18,7 @@ void prefix_unary(std::vector<string>& expression, Compiler& compiler)
   {
     //we ignore parentheses
     if(token == "(" || token == ")") continue;
-    if(is_operator(token)) 
+    if(is_operator_noprefix(token)) 
     {
       //an unary operator is either the first token of an expression or directly follows another operator (excluding brackets of course)
       if(last_null_or_operator) 
@@ -43,6 +43,8 @@ std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& c
 {
   prefix_unary(expression, compiler);
   
+  //TODO: validate here using a special function
+
   std::vector<string> postfix_expression;
   std::stack<string> operator_stack;
 
