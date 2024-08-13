@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iterator>
 #include <stack>
 #include <cassert>
 
@@ -21,6 +22,7 @@ namespace token_tests
     //the token should always contain at least one character, else the program crashes
     //empty tokens would mean a mistake in the lexer code
     assert(token.size() > 0);
+    if(!(token[0] == '_' || token[0] >= 'a' && token[0] <= 'z' || token[0] >= 'A' && token[0] <= 'Z')) return false;
     return std::all_of(token.begin()+1, token.end(), [](char ch)
     {
       return ch == '_' || ch >= '0' && ch <= '9' || ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z';
@@ -55,6 +57,16 @@ TokenType get_token_type(string& token)
   if(is_unary_operator(token)) return TokenType::UnaryOperator;
   if(is_bracket(token)) return TokenType::Bracket;
   return TokenType::Unknown;
+}
+
+string token_type_to_string(TokenType token_type)
+{
+  if(token_type == TokenType::Number) return "Number";
+  if(token_type == TokenType::Variable) return "Variable";
+  if(token_type == TokenType::BinaryOperator) return "BinaryOp";
+  if(token_type == TokenType::UnaryOperator) return "UnaryOp";
+  if(token_type == TokenType::Bracket) return "Bracket";
+  return "Unknown";
 }
 
 bool is_operator_noprefix(string token)
@@ -92,16 +104,39 @@ void prefix_unary(std::vector<string>& expression, Compiler& compiler)
   }
 }
 
-//TODO: finish the function
 bool is_valid_operator_placement(std::vector<string>& expression)
 {
-  std::vector<string> filtered;
-  //parentheses are completely ignored as they are checked by the shunting yard algorithm
-  //we filter out parentheses
-  for(string& token : expression)
+  std::vector<TokenType> transformed;
+  std::transform(expression.begin(), expression.end(), std::back_inserter(transformed), get_token_type);
+  std::vector<TokenType> filtered;
+  std::copy_if(transformed.begin(), transformed.end(), std::back_inserter(filtered), 
+      [](TokenType token_type){return token_type != TokenType::Bracket;});
+  for(int i = 0; i < filtered.size(); i++)
   {
-    if(token != "(" && token != ")") filtered.push_back(token);
+    TokenType cur_type = filtered[i];
+
+    if(cur_type == TokenType::BinaryOperator)
+    {
+      //a binary operator can't be last
+      if(i == filtered.size()-1) return false;
+      //and can't be first
+      if(i == 0) return false;
+      //also has to follow an operand directly
+      TokenType prev = filtered[i-1];
+      if(prev != TokenType::Variable && prev != TokenType::Number) return false;
+    }
+
+    if(cur_type == TokenType::UnaryOperator)
+    {
+      //a unary operator has to precede either another unary operator or an operand
+      if(i == filtered.size()-1) return false;
+      TokenType next = filtered[i+1];
+      //a chain of unary operators has to find an operand eventually 
+      //so for each operator we need to only check whether the following one is fine
+      if(next != TokenType::UnaryOperator && next != TokenType::Number && next != TokenType::Variable) return false;
+    }
   }
+
   return true;
 }
 
@@ -109,7 +144,11 @@ std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& c
 {
   prefix_unary(expression, compiler);
   
-  //TODO: validate here using a special function
+  if(!is_valid_operator_placement(expression))
+  {
+    compiler.log("Invalid expression, not enough operands for an operator");
+    return {};
+  }
 
   std::vector<string> postfix_expression;
   std::stack<string> operator_stack;

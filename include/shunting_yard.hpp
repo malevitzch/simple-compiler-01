@@ -33,7 +33,12 @@ namespace token_tests
   bool is_bracket(string& token);
 }
 
+//returns the corresponding token type based on the given string
 TokenType get_token_type(string& token);
+
+//returns a string representation of an object of the type TokenType
+//TODO: consider replacing this with a simple overload of std::to_string for TokenType
+string token_type_to_string(TokenType token_type);
 
 //function that checks whether or not the token is an operator
 //NOTE: this is for non-prefixed operators
