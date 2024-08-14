@@ -165,10 +165,18 @@ void Compiler::compile(string input_filename, string output_filename)
 
   std::stringstream buffer;
   buffer << base_template();
+
+  //we zero out the current statement index after it was used by lexer
+  cur_statement_index = 0;
+  
   for(std::vector<string>& statement : statements)
   {
+    //increment the statement index to give proper info for error messages
     cur_statement_index++;
-    if(statement.size() == 0) continue;
+    
+    //statement size has to be larger than zero, if it isn't that means that a mistake happened somewhere in our code as lexer should not create empty statements
+    assert(statement.size() > 0);
+    
     if(statement[0] == "decl")
     {
       if(statement.size() < 2)
@@ -179,6 +187,7 @@ void Compiler::compile(string input_filename, string output_filename)
       {
         log("Invalid variable name: \"" + statement[1] + "\"");
       }
+      //we declare the variable so that it can be used in the expression
       buffer << declare(statement[1]);
       if(statement.size() > 2)
       {
@@ -199,10 +208,7 @@ void Compiler::compile(string input_filename, string output_filename)
       }
       buffer << "\tpush qword [rbp-" + std::to_string(8*variables[statement[1]]) + "]\n\tcall _print\n\tadd rsp, 8\n";
     }
-    else
-    {
-      buffer << expression_eval(statement);
-    }
+    else buffer << expression_eval(statement);
   }
   buffer << end_program();
   if(error_log.empty())
@@ -214,6 +220,6 @@ void Compiler::compile(string input_filename, string output_filename)
   else
   {
     diagnostic_stream << "Compilation failed due to the following errors:\n";
-    for(string& error : error_log) diagnostic_stream << error<<"\n";
+    for(string& error : error_log) diagnostic_stream << error << "\n";
   }
 }
