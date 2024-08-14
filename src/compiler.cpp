@@ -213,7 +213,6 @@ void Compiler::compile(string input_filename, string output_filename)
   }
   else
   {
-    //TODO: make this use a diagnostic output ostream as a parameter for the compiler (basically you can instantiate compiler with any ostream you want and everything gets written there)
     diagnostic_stream << "Compilation failed due to the following errors:\n";
     for(string& error : error_log) diagnostic_stream << error<<"\n";
   }
