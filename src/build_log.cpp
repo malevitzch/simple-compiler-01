@@ -1,5 +1,7 @@
+#include <iostream>
+
 #include "build_log.hpp"
-#include <string>
+
 
 void BuildLog::log_error(string text, int statement_index)
 {
@@ -47,5 +49,16 @@ void BuildLog::dump(std::ostream& output_stream)
   if(!is_successful())
   {
     output_stream << "Compilation halted due to the following errors: \n";
+    for(string& error : errors) output_stream<<error<<"\n";
+  }
+  else
+  {
+    output_stream << "Compilation finished with no errors and " + std::to_string(warning_count) + " warnings\n";
+    if(warning_count > 0)
+    {
+      output_stream << "Warnings:\n";
+      for(string& warning : warnings) output_stream << warning << "\n";
+    }
+    for(string& message : messages) output_stream << message << "\n";
   }
 }
