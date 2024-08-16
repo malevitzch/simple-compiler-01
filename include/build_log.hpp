@@ -13,7 +13,7 @@ private:
 public:
 
   //logs an error in the statement with the given number
-  void log_error(string text, int sstatement_index);
+  void log_error(string text, int statement_index);
 
   //logs a global error 
   void log_error(string text);
