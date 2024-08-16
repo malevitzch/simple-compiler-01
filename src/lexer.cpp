@@ -59,7 +59,7 @@ std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compil
   //in case of invalid filename, log it to compiler error log and halt compilation
   if(!file_stream.good())
   {
-    compiler.log("File \"" + filename + "\" does not exist");
+    compiler.log.log_error("File \"" + filename + "\" does not exist");
     return {};
   }
 
@@ -163,7 +163,7 @@ std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compil
         //handle unknown character here
         string s = "";
         s += cur_char;
-        compiler.log("Unknown character \"" + s + "\"\n");
+        compiler.log.log_error("Unknown character \"" + s + "\"\n", compiler.cur_statement_index);
         break;
     }
   }
@@ -171,7 +171,7 @@ std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compil
   if(!cur_statement.empty())
   {
     //Handle syntax error. Basically last line has no semicolon
-    compiler.log("No semicolon at the end of last statement");
+    compiler.log.log_error("No semicolon at the end of last statement");
   }
   compiler.cur_statement_index = 0;
   return statements;

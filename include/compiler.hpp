@@ -4,7 +4,10 @@
 #include <map>
 #include <iostream>
 
+#include "build_log.hpp"
+
 using std::string;
+
 
 //TODO: Add functionality to change streams (pointer instead of reference but it's difficult to do due to deleted copy constructors)
 
@@ -24,7 +27,6 @@ private:
   //a function that adds an error to the log
   //NOTE: currently any error halts compilation completely
   //TODO: implement warnings, update the note (Also errors should be handled polymorphically)
-  void log(string message);
 
   //a function that registers the variable of given name in the variable map
   //logs an error if variable is already registered
@@ -66,6 +68,9 @@ public:
 
   //compiles the file with the name given by the first argument and saves the result in a file with the name given by the second argument
   void compile(string input_filename, string output_filename);
+
+  //TODO: consider whether it is better to add bindings to BuildLog functions to Compiler not to expose log to the outside
+  BuildLog log;
 
   //friend declarations for dependency injections
   friend std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compiler);

@@ -90,7 +90,7 @@ void prefix_unary(std::vector<string>& expression, Compiler& compiler)
       {
         if(operator_map.find("u" + token) == operator_map.end())
         {
-          compiler.log("Operator \"" + token + "\" is being interpreted as unary operator but no such unary operator exists");
+          compiler.log.log_error("Operator \"" + token + "\" is being interpreted as unary operator but no such unary operator exists", compiler.cur_statement_index);
           return;
         }
         token = "u" + token;
@@ -146,7 +146,7 @@ std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& c
   
   if(!is_valid_operator_placement(expression))
   {
-    compiler.log("Invalid expression, not enough operands for an operator");
+    compiler.log.log_error("Invalid expression, not enough operands for an operator", compiler.cur_statement_index);
     return {};
   }
 
@@ -164,7 +164,7 @@ std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& c
       {
         if(operator_stack.empty())
         {
-          compiler.log("Mismatched parentheses");
+          compiler.log.log_error("Mismatched parentheses", compiler.cur_statement_index);
         }
         string cur = operator_stack.top();
         operator_stack.pop();
@@ -192,7 +192,7 @@ std::vector<string> infix_to_postfix(std::vector<string> expression, Compiler& c
   }
   while(!operator_stack.empty())
   {
-    if(operator_stack.top() == "(") compiler.log("Mismatched parentheses");
+    if(operator_stack.top() == "(") compiler.log.log_error("Mismatched parentheses", compiler.cur_statement_index);
     postfix_expression.push_back(operator_stack.top());
     operator_stack.pop();
   }

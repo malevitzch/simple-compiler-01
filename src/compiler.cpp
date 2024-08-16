@@ -8,18 +8,14 @@
 #include "shunting_yard.hpp"
 #include "stringops.hpp"
 #include "lexer.hpp"
-
-void Compiler::log(string message)
-{
-  error_log.push_back("In statement " + std::to_string(cur_statement_index) + ": " + message);
-}
+#include "build_log.hpp"
 
 void Compiler::register_variable(string name)
 {
   //check if variable is not already registered
   if(variables.find(name) != variables.end())
   {
-    log("Variable \"" + name + "\" is already registered");
+    log.log_error("Variable \"" + name + "\" is already registered", cur_statement_index);
   }
   variables[name] = ++stack_ptr;
 }
@@ -40,7 +36,7 @@ string Compiler::dereference(string variable_name, int index)
 {
   if(variables.find(variable_name) == variables.end()) 
   {
-    log("Attempt to dereference nonexistent variable \"" + variable_name + "\"");
+    log.log_error("Attempt to dereference nonexistent variable \"" + variable_name + "\"", cur_statement_index);
   } 
   return "\tmov rax, [rsp+" + std::to_string(index * 8) +"]\n\tmov rax, [rax]\n\tmov [rsp+" + std::to_string(index * 8) + "], rax\n";
 }
@@ -74,7 +70,7 @@ string Compiler::expression_eval(std::vector<string> expression)
     {
       if(variables.find(token) == variables.end())
       {
-        log("Invalid token \"" + token + "\"");
+        log.log_error("Invalid token \"" + token + "\"", cur_statement_index);
         continue;
       }
       value_stack.push(token);
@@ -84,7 +80,7 @@ string Compiler::expression_eval(std::vector<string> expression)
     {
       if(operator_map.find(token) == operator_map.end())
       {
-        log("Invalid token \"" + token + "\"");
+        log.log_error("Invalid token \"" + token + "\"", cur_statement_index);
         continue;
       }
       Operator op = operator_map.at(token);
@@ -92,7 +88,7 @@ string Compiler::expression_eval(std::vector<string> expression)
       {
         if(value_stack.size() < 1) 
         {
-          log("Not enough operands for unary operator");
+          log.log_error("Not enough operands for unary operator", cur_statement_index);
           return "";
         }
         string op1 = value_stack.top();
@@ -107,7 +103,7 @@ string Compiler::expression_eval(std::vector<string> expression)
         //handle situation where there are not enough operands on the stack
         if(value_stack.size() < 2) 
         {
-          log("Not enough operands for binary operator");
+          log.log_error("Not enough operands for binary operator", cur_statement_index);
           return "";
         }
         string op2 = value_stack.top();
@@ -119,7 +115,7 @@ string Compiler::expression_eval(std::vector<string> expression)
         {
           if(op1 == "#")
           {
-            log("Cannot assign to an rvalue");
+            log.log_error("Cannot assign to an rvalue", cur_statement_index);
             return "";
           }
           if(op2 != "#") result += dereference(op2, 1);
@@ -139,7 +135,7 @@ string Compiler::expression_eval(std::vector<string> expression)
   }
   if(value_stack.size() != 1)
   {
-    log("Expression does not evaluate to a single value");
+    log.log_error("Expression does not evaluate to a single value", cur_statement_index);
     return "";
   }
   return result;
@@ -181,11 +177,11 @@ void Compiler::compile(string input_filename, string output_filename)
     {
       if(statement.size() < 2)
       {
-        log("expected variable name after 'decl'");
+        log.log_error("expected variable name after 'decl'", cur_statement_index);
       }
       if(!is_valid_variable_name(statement[1]))
       {
-        log("Invalid variable name: \"" + statement[1] + "\"");
+        log.log_error("Invalid variable name: \"" + statement[1] + "\"", cur_statement_index);
       }
       //we declare the variable so that it can be used in the expression
       buffer << declare(statement[1]);
@@ -200,11 +196,11 @@ void Compiler::compile(string input_filename, string output_filename)
       //TODO: make print use expression eval
       if(statement.size() < 2)
       {
-        log("expected variable name after 'decl'");
+        log.log_error("expected variable name after 'print'", cur_statement_index);
       }
       if(!is_valid_variable_name(statement[1]))
       {
-        log("invalid variable name \"" + statement[1] + "\"");
+        log.log_error("invalid variable name \"" + statement[1] + "\"");
       }
       buffer << "\tpush qword [rbp-" + std::to_string(8*variables[statement[1]]) + "]\n\tcall _print\n\tadd rsp, 8\n";
     }
