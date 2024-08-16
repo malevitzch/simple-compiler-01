@@ -152,10 +152,9 @@ void Compiler::compile(string input_filename, string output_filename)
 {
   std::vector<std::vector<string>> statements = tokenize_file(input_filename, *this);
 
-  if(!error_log.empty())
+  if(!log.is_successful())
   {
-    diagnostic_stream << "Tokenization failed due to the following errors:\n";
-    for(string& error : error_log) diagnostic_stream<<error<<"\n";
+    log.dump(diagnostic_stream);
     return;
   }
 
@@ -207,15 +206,15 @@ void Compiler::compile(string input_filename, string output_filename)
     else buffer << expression_eval(statement);
   }
   buffer << end_program();
-  if(error_log.empty())
+  if(log.is_successful())
   {
     std::ofstream output(output_filename);
     output << buffer.str();
-    diagnostic_stream << "Compilation successful, the contents have been written to \"" + output_filename + "\"\n"; 
+    log.log_message("The contents have been written to \"" + output_filename + "\"\n");
+    log.dump(diagnostic_stream); 
   }
   else
   {
-    diagnostic_stream << "Compilation failed due to the following errors:\n";
-    for(string& error : error_log) diagnostic_stream << error << "\n";
+    log.dump(diagnostic_stream);
   }
 }

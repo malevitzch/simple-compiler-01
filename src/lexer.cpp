@@ -163,7 +163,7 @@ std::vector<std::vector<string>> tokenize_file(string filename, Compiler& compil
         //handle unknown character here
         string s = "";
         s += cur_char;
-        compiler.log.log_error("Unknown character \"" + s + "\"\n", compiler.cur_statement_index);
+        compiler.log.log_error("Unknown character \"" + s + "\"", compiler.cur_statement_index);
         break;
     }
   }

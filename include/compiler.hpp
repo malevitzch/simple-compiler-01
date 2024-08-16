@@ -22,7 +22,6 @@ private:
   int cur_statement_index = 0;
   //the map that stores variables, could potentially be replaced with unordered_map
   std::map<string, int> variables;
-  std::vector<string> error_log;
   
   //a function that adds an error to the log
   //NOTE: currently any error halts compilation completely
