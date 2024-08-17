@@ -43,7 +43,6 @@ bool BuildLog::is_successful()
   return error_count == 0;
 }
 
-//TODO: finish
 void BuildLog::dump(std::ostream& output_stream)
 {
   if(!is_successful())
