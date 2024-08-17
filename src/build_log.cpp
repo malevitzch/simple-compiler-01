@@ -29,8 +29,7 @@ void BuildLog::log_warning(string text)
 
 void BuildLog::log_message(string text, int statement_index)
 {
-  //TODO: this doesn't sound right, do something about it
-  messages.push_back("In statement: " + std::to_string(statement_index) + ": " + text);
+  messages.push_back("Message from statement " + std::to_string(statement_index) + ": " + text);
 }
 
 void BuildLog::log_message(string text)
@@ -47,7 +46,7 @@ void BuildLog::dump(std::ostream& output_stream)
 {
   if(!is_successful())
   {
-    output_stream << "Compilation halted due to the following errors: \n";
+    output_stream << "Compilation halted due to the following " << error_count << " errors: \n";
     for(string& error : errors) output_stream<<error<<"\n";
   }
   else
