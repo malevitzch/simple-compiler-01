@@ -64,7 +64,7 @@ string Compiler::expression_eval(std::vector<string> expression)
     if(is_a_number(token))
     {
       value_stack.push("#");
-      result += "\tpush " + token + "\n";
+      result += "\tmov rax, " + token + "\n\tpush rax\n";
     }
     else if(is_valid_variable_name(token))
     {
