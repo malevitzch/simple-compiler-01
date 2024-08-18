@@ -7,6 +7,7 @@ The initial goal of this project is to create a simple, not necessarily turing-c
 \
 # TODO:
 - provide a reasonable and convenient command to compile files
+- make print use expression eval rather than requiring a variable name
 - change the way errors are handled (to a polymorphic error class rather than a vector of strings, at the very least)
 - Add a lot more documentation and clean up code
 - Remove the stringops files, the functionality they provide should be moved somewhere because currently it holds just a few functions, one of which is not even used
