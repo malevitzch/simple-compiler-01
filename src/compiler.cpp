@@ -210,7 +210,7 @@ void Compiler::compile(string input_filename, string output_filename)
   {
     std::ofstream output(output_filename);
     output << buffer.str();
-    log.log_message("The contents have been written to \"" + output_filename + "\"\n");
+    log.log_message("The contents have been written to \"" + output_filename + "\"");
     log.dump(diagnostic_stream); 
   }
   else
