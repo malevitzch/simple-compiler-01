@@ -6,7 +6,7 @@
 #include "compiler.hpp"
 #include "operators.hpp"
 #include "shunting_yard.hpp"
-#include "stringops.hpp"
+//#include "stringops.hpp"
 #include "lexer.hpp"
 #include "build_log.hpp"
 
@@ -61,12 +61,12 @@ string Compiler::expression_eval(std::vector<string> expression)
   std::stack<string> value_stack;
   for(string token : postfix_expr)
   {
-    if(is_a_number(token))
+    if(token_tests::is_number(token))
     {
       value_stack.push("#");
       result += "\tmov rax, " + token + "\n\tpush rax\n";
     }
-    else if(is_valid_variable_name(token))
+    else if(token_tests::is_variable(token))
     {
       if(variables.find(token) == variables.end())
       {
@@ -178,7 +178,7 @@ void Compiler::compile(string input_filename, string output_filename)
       {
         log.log_error("expected variable name after 'decl'", cur_statement_index);
       }
-      if(!is_valid_variable_name(statement[1]))
+      if(!token_tests::is_variable(statement[1]))
       {
         log.log_error("Invalid variable name: \"" + statement[1] + "\"", cur_statement_index);
       }
@@ -197,7 +197,7 @@ void Compiler::compile(string input_filename, string output_filename)
       {
         log.log_error("expected variable name after 'print'", cur_statement_index);
       }
-      if(!is_valid_variable_name(statement[1]))
+      if(!token_tests::is_variable(statement[1]))
       {
         log.log_error("invalid variable name \"" + statement[1] + "\"");
       }

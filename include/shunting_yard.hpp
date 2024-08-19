@@ -24,9 +24,9 @@ namespace token_tests
   bool is_number(string& token);
   //a variable starts with an underscore or a letter, any later character may be a number, letter, or an underscore
   bool is_variable(string& token);
-  //uses the operator map to determine 
+  //uses the operator map to determine if the token represents a binary operator 
   bool is_binary_operator(string& token);
-  //uses the operator map to determine
+  //uses the operator map to determine if the token represents a unary operator
   bool is_unary_operator(string& token);
   //currently token == "(" || token == ")"
   bool is_bracket(string& token);
