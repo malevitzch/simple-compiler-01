@@ -18,7 +18,6 @@ enum class TokenType
   Unknown
 };
 
-//TODO: make a function which determines the type of a token
 namespace token_tests
 {
   //a number is a string consisting only of digits between 0 and 9
