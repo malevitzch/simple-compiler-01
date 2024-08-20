@@ -44,8 +44,10 @@ bool BuildLog::is_successful()
 
 void BuildLog::dump(std::ostream& output_stream)
 {
+  //check if there are any errors
   if(!is_successful())
   {
+    //in case of errors, output that compilation has halted and print all the errors
     output_stream << "Compilation halted due to the following " << error_count << " errors: \n";
     for(string& error : errors) output_stream<<error<<"\n";
   }
