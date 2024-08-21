@@ -39,6 +39,7 @@ void BuildLog::log_message(string text)
 
 bool BuildLog::is_successful()
 {
+  //a successful compilation is a compilation without errors
   return error_count == 0;
 }
 
