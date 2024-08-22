@@ -146,3 +146,15 @@ _operator_negation:
   add rsp, 8
   push rax
   jmp rcx
+
+_operator_equality:
+  pop rcx
+  mov rax, [rsp+8]
+  mov rbx, [rsp]
+  cmp rax, rbx
+  je _operator_equality_eq
+  push 0
+  jmp rcx
+_operator_equality_eq:
+  push 1
+  jmp rcx
